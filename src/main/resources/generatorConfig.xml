@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry location="H:\sqljdbc_6.0\enu\sqljdbc42.jar"/>
+
+    <context id="test" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+                        connectionURL="jdbc:sqlserver://127.0.0.1:1433;databaseName=shopping;user=test;password=test"
+                        userId="test" password="test" />
+        <javaModelGenerator targetPackage="just.yt.model"
+                            targetProject="G:\Github\Project3\src\main\java" />
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="G:\Github\Project3\src\main\resources" />
+        <javaClientGenerator targetPackage="just.yt.dao"
+          targetProject="G:\Github\Project3\src\main\java" type="XMLMAPPER" />
+        <table  tableName="t_user" />
+        <table tableName="t_shoppinglist"/>
+        <table tableName="t_commodity"/>
+
+    </context>
+</generatorConfiguration>
