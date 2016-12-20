@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <classPathEntry location="H:\sqljdbc_6.0\enu\sqljdbc42.jar"/>
+    <classPathEntry location="G:\qqdocument\552177156\FileRecv\mysql-connector-java-5.1.38.jar"/>
 
     <context id="test" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
@@ -13,18 +13,24 @@
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-                        connectionURL="jdbc:sqlserver://127.0.0.1:1433;databaseName=shopping;user=test;password=test"
-                        userId="test" password="test" />
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/shopping?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        userId="root" password="admin" />
         <javaModelGenerator targetPackage="just.yt.model"
                             targetProject="G:\Github\Project3\src\main\java" />
         <sqlMapGenerator targetPackage="mapper"
                          targetProject="G:\Github\Project3\src\main\resources" />
         <javaClientGenerator targetPackage="just.yt.dao"
           targetProject="G:\Github\Project3\src\main\java" type="XMLMAPPER" />
-        <table  tableName="t_user" />
-        <table tableName="t_shoppinglist"/>
-        <table tableName="t_commodity"/>
+        <table  tableName="t_user" >
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="t_shoppinglist">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="t_commodity">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
 
     </context>
 </generatorConfiguration>

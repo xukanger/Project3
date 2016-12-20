@@ -10,13 +10,21 @@ public interface TCommodityMapper {
 
     int deleteByExample(TCommodityExample example);
 
+    int deleteByPrimaryKey(Integer id);
+
     int insert(TCommodity record);
 
     int insertSelective(TCommodity record);
 
     List<TCommodity> selectByExample(TCommodityExample example);
 
+    TCommodity selectByPrimaryKey(Integer id);
+
     int updateByExampleSelective(@Param("record") TCommodity record, @Param("example") TCommodityExample example);
 
     int updateByExample(@Param("record") TCommodity record, @Param("example") TCommodityExample example);
+
+    int updateByPrimaryKeySelective(TCommodity record);
+
+    int updateByPrimaryKey(TCommodity record);
 }
