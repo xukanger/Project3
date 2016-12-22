@@ -26,14 +26,44 @@ public class UserService {
     }
 
     public TUser insert(TUser user){
-        int id=tUserMapper.insertSelective(user);
-        TUserExample tUserExample=new TUserExample();
-        System.out.println(user.getId());
-        tUserExample.createCriteria().andIdEqualTo(id);
-        //return tUserMapper.selectByExample(tUserExample).get(0);
+        tUserMapper.insertSelective(user);
         return user;
     }
 
+    public List<TUser> getAll(){
+        return tUserMapper.selectByExample(new TUserExample());
+    }
+
+    public TUser update(TUser user){
+        TUserExample tUserExample=new TUserExample();
+        tUserExample.createCriteria().andIdEqualTo(user.getId());
+        tUserMapper.updateByExampleSelective(user,tUserExample);
+        return user;
+    }
+
+    public void delete(Integer id){
+        tUserMapper.deleteByPrimaryKey(id);
+    }
+
+    public void save(TUser user){
+        tUserMapper.insert(user);
+    }
+
+
+    public Integer count(){
+        return tUserMapper.countByExample(new TUserExample());
+    }
+
+    public List<TUser> getByPage(int pageSize,int pageNo){
+        TUserExample tUserExample=new TUserExample();
+        tUserExample.setLimitStart((pageNo - 1) * pageSize);
+        tUserExample.setLimitSize(pageSize);
+        return tUserMapper.selectByExample(tUserExample);
+    }
+
+    public TUser getById(Integer id){
+        return tUserMapper.selectByPrimaryKey(id);
+    }
 
 
 }

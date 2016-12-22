@@ -3,8 +3,9 @@
 <mapper namespace="just.yt.dao.TShoppinglistMapper" >
   <resultMap id="BaseResultMap" type="just.yt.model.TShoppinglist" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="userid" property="userid" jdbcType="VARCHAR" />
-    <result column="commodityid" property="commodityid" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="commodityid" property="commodityid" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, userid, commodityid
+    id, userid, commodityid, number
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="just.yt.model.TShoppinglistExample" >
     select
@@ -79,6 +80,9 @@
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitSize >= 0" >
+      limit #{limitStart} , #{limitSize}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -101,8 +105,10 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_shoppinglist (userid, commodityid)
-    values (#{userid,jdbcType=VARCHAR}, #{commodityid,jdbcType=VARCHAR})
+    insert into t_shoppinglist (userid, commodityid, number
+      )
+    values (#{userid,jdbcType=INTEGER}, #{commodityid,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="just.yt.model.TShoppinglist" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -116,13 +122,19 @@
       <if test="commodityid != null" >
         commodityid,
       </if>
+      <if test="number != null" >
+        number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userid != null" >
-        #{userid,jdbcType=VARCHAR},
+        #{userid,jdbcType=INTEGER},
       </if>
       <if test="commodityid != null" >
-        #{commodityid,jdbcType=VARCHAR},
+        #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -139,10 +151,13 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.userid != null" >
-        userid = #{record.userid,jdbcType=VARCHAR},
+        userid = #{record.userid,jdbcType=INTEGER},
       </if>
       <if test="record.commodityid != null" >
-        commodityid = #{record.commodityid,jdbcType=VARCHAR},
+        commodityid = #{record.commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="record.number != null" >
+        number = #{record.number,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -152,8 +167,9 @@
   <update id="updateByExample" parameterType="map" >
     update t_shoppinglist
     set id = #{record.id,jdbcType=INTEGER},
-      userid = #{record.userid,jdbcType=VARCHAR},
-      commodityid = #{record.commodityid,jdbcType=VARCHAR}
+      userid = #{record.userid,jdbcType=INTEGER},
+      commodityid = #{record.commodityid,jdbcType=INTEGER},
+      number = #{record.number,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -162,18 +178,22 @@
     update t_shoppinglist
     <set >
       <if test="userid != null" >
-        userid = #{userid,jdbcType=VARCHAR},
+        userid = #{userid,jdbcType=INTEGER},
       </if>
       <if test="commodityid != null" >
-        commodityid = #{commodityid,jdbcType=VARCHAR},
+        commodityid = #{commodityid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="just.yt.model.TShoppinglist" >
     update t_shoppinglist
-    set userid = #{userid,jdbcType=VARCHAR},
-      commodityid = #{commodityid,jdbcType=VARCHAR}
+    set userid = #{userid,jdbcType=INTEGER},
+      commodityid = #{commodityid,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

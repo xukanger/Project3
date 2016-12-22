@@ -16,15 +16,21 @@ public interface TCommodityMapper {
 
     int insertSelective(TCommodity record);
 
+    List<TCommodity> selectByExampleWithBLOBs(TCommodityExample example);
+
     List<TCommodity> selectByExample(TCommodityExample example);
 
     TCommodity selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") TCommodity record, @Param("example") TCommodityExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") TCommodity record, @Param("example") TCommodityExample example);
+
     int updateByExample(@Param("record") TCommodity record, @Param("example") TCommodityExample example);
 
     int updateByPrimaryKeySelective(TCommodity record);
+
+    int updateByPrimaryKeyWithBLOBs(TCommodity record);
 
     int updateByPrimaryKey(TCommodity record);
 }

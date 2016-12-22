@@ -9,6 +9,10 @@ public class TCommodity implements Serializable {
 
     private String description;
 
+    private Integer promotionid;
+
+    private String url;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -35,6 +39,22 @@ public class TCommodity implements Serializable {
         this.description = description;
     }
 
+    public Integer getPromotionid() {
+        return promotionid;
+    }
+
+    public void setPromotionid(Integer promotionid) {
+        this.promotionid = promotionid;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -49,7 +69,9 @@ public class TCommodity implements Serializable {
         TCommodity other = (TCommodity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
-            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()));
+            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getPromotionid() == null ? other.getPromotionid() == null : this.getPromotionid().equals(other.getPromotionid()))
+            && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()));
     }
 
     @Override
@@ -59,6 +81,8 @@ public class TCommodity implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getPromotionid() == null) ? 0 : getPromotionid().hashCode());
+        result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
         return result;
     }
 
@@ -71,6 +95,8 @@ public class TCommodity implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", price=").append(price);
         sb.append(", description=").append(description);
+        sb.append(", promotionid=").append(promotionid);
+        sb.append(", url=").append(url);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

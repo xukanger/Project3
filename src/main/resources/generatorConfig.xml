@@ -4,11 +4,13 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <classPathEntry location="G:\qqdocument\552177156\FileRecv\mysql-connector-java-5.1.38.jar"/>
+    <classPathEntry location="G:\Github\Project3\target\classes\tool\CreateCode.class"/>
 
     <context id="test" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <plugin type="tool.MysqlPaginationPlugin"/>
         <commentGenerator>
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
@@ -31,6 +33,11 @@
         <table tableName="t_commodity">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
-
+        <table tableName="t_promotion">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="t_comment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
     </context>
 </generatorConfiguration>

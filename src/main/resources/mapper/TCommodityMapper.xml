@@ -5,6 +5,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="promotionid" property="promotionid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="just.yt.model.TCommodity" extends="BaseResultMap" >
+    <result column="url" property="url" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,8 +69,30 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, price, description
+    id, price, description, promotionid
   </sql>
+  <sql id="Blob_Column_List" >
+    url
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="just.yt.model.TCommodityExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_commodity
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitSize >= 0" >
+      limit #{limitStart} , #{limitSize}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="just.yt.model.TCommodityExample" >
     select
     <if test="distinct" >
@@ -80,10 +106,15 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="limitStart != null and limitSize >= 0" >
+      limit #{limitStart} , #{limitSize}
+    </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_commodity
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -101,8 +132,10 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_commodity (price, description)
-    values (#{price,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+    insert into t_commodity (price, description, promotionid, 
+      url)
+    values (#{price,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{promotionid,jdbcType=INTEGER}, 
+      #{url,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="just.yt.model.TCommodity" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -116,6 +149,12 @@
       <if test="description != null" >
         description,
       </if>
+      <if test="promotionid != null" >
+        promotionid,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="price != null" >
@@ -123,6 +162,12 @@
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        #{promotionid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -144,7 +189,24 @@
       <if test="record.description != null" >
         description = #{record.description,jdbcType=VARCHAR},
       </if>
+      <if test="record.promotionid != null" >
+        promotionid = #{record.promotionid,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_commodity
+    set id = #{record.id,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      promotionid = #{record.promotionid,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,7 +215,8 @@
     update t_commodity
     set id = #{record.id,jdbcType=INTEGER},
       price = #{record.price,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR}
+      description = #{record.description,jdbcType=VARCHAR},
+      promotionid = #{record.promotionid,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -167,13 +230,28 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="promotionid != null" >
+        promotionid = #{promotionid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="just.yt.model.TCommodity" >
+    update t_commodity
+    set price = #{price,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      promotionid = #{promotionid,jdbcType=INTEGER},
+      url = #{url,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="just.yt.model.TCommodity" >
     update t_commodity
     set price = #{price,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR}
+      description = #{description,jdbcType=VARCHAR},
+      promotionid = #{promotionid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

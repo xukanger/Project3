@@ -1,0 +1,59 @@
+package just.yt.service;
+
+import just.yt.dao.T${modelUp}Mapper;
+import just.yt.model.T${modelUp};
+import just.yt.model.T${modelUp}Example;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+* Created by yt on 2016/12/13.
+*/
+@Service("${modelLow}Service")
+public class ${modelUp}Service {
+
+@Resource
+T${modelUp}Mapper t${modelUp}Mapper;
+
+
+    public T${modelUp} insert(T${modelUp} ${modelLow}){
+        t${modelUp}Mapper.insertSelective(${modelLow});
+        return ${modelLow};
+    }
+
+    public List<T${modelUp}> getAll(){
+        return t${modelUp}Mapper.selectByExample(new T${modelUp}Example());
+    }
+
+    public T${modelUp} update(T${modelUp} ${modelLow}){
+        T${modelUp}Example t${modelUp}Example=new T${modelUp}Example();
+        t${modelUp}Example.createCriteria().andIdEqualTo(${modelLow}.getId());
+        t${modelUp}Mapper.updateByExampleSelective(${modelLow},t${modelUp}Example);
+        return ${modelLow};
+    }
+
+    public void delete(Integer id){
+        t${modelUp}Mapper.deleteByPrimaryKey(id);
+    }
+
+    public void save(T${modelUp} ${modelLow}){
+        t${modelUp}Mapper.insert(${modelLow});
+    }
+
+    public Integer count(){
+        return t${modelUp}Mapper.countByExample(new T${modelUp}Example());
+    }
+
+    public List<T${modelUp}> getByPage(int pageSize,int pageNo){
+        T${modelUp}Example t${modelUp}Example=new T${modelUp}Example();
+        t${modelUp}Example.setLimitStart((pageNo - 1) * pageSize);
+        t${modelUp}Example.setLimitSize(pageSize);
+        return t${modelUp}Mapper.selectByExample(t${modelUp}Example);
+        }
+
+        public T${modelUp} getById(Integer id){
+        return t${modelUp}Mapper.selectByPrimaryKey(id);
+        }
+}

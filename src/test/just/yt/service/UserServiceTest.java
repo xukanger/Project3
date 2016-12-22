@@ -1,6 +1,5 @@
 package just.yt.service;
 
-import just.yt.model.TUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,13 +18,17 @@ public class UserServiceTest {
     @Resource
     UserService userService;
 
+    @Resource
+    CommodityService commodityService;
+
+
     @Test
     public void getUser() throws Exception {
-        TUser user=new TUser();
-        user.setName("test");
-        user.setEmail("test@test.com");
-        user.setPassword("test");
-        System.out.println(userService.insert(user));
+
+        System.out.println(commodityService.getById(1));
     }
+
+
+
 
 }

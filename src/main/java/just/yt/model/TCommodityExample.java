@@ -10,6 +10,10 @@ public class TCommodityExample {
 
     protected List<Criteria> oredCriteria;
 
+    protected Integer limitStart;
+
+    protected Integer limitSize;
+
     public TCommodityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +65,22 @@ public class TCommodityExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+    }
+
+    public void setLimitStart(Integer limitStart) {
+        this.limitStart = limitStart;
+    }
+
+    public Integer getLimitStart() {
+        return limitStart;
+    }
+
+    public void setLimitSize(Integer limitSize) {
+        this.limitSize = limitSize;
+    }
+
+    public Integer getLimitSize() {
+        return limitSize;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -301,6 +321,66 @@ public class TCommodityExample {
 
         public Criteria andDescriptionNotBetween(String value1, String value2) {
             addCriterion("description not between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidIsNull() {
+            addCriterion("promotionid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidIsNotNull() {
+            addCriterion("promotionid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidEqualTo(Integer value) {
+            addCriterion("promotionid =", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidNotEqualTo(Integer value) {
+            addCriterion("promotionid <>", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidGreaterThan(Integer value) {
+            addCriterion("promotionid >", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("promotionid >=", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidLessThan(Integer value) {
+            addCriterion("promotionid <", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidLessThanOrEqualTo(Integer value) {
+            addCriterion("promotionid <=", value, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidIn(List<Integer> values) {
+            addCriterion("promotionid in", values, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidNotIn(List<Integer> values) {
+            addCriterion("promotionid not in", values, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidBetween(Integer value1, Integer value2) {
+            addCriterion("promotionid between", value1, value2, "promotionid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPromotionidNotBetween(Integer value1, Integer value2) {
+            addCriterion("promotionid not between", value1, value2, "promotionid");
             return (Criteria) this;
         }
     }
