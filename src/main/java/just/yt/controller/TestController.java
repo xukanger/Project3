@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/test")
 public class TestController {
 
-    @RequestMapping(value="/data",method= RequestMethod.GET)
+    @RequestMapping(value ="/data",method= RequestMethod.GET)
     public  ModelAndView data() {
-        ModelAndView mav= new ModelAndView();
+        ModelAndView mav = new ModelAndView();
         mav.addObject("city","test");
         mav.setViewName("helloworld");
         return mav;
