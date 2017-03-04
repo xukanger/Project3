@@ -16,7 +16,7 @@
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/shopping?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://localhost:3306/court?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
                         userId="root" password="admin" />
         <javaModelGenerator targetPackage="just.yt.model"
                             targetProject="G:\Github\Project3\src\main\java" />
@@ -24,19 +24,16 @@
                          targetProject="G:\Github\Project3\src\main\resources" />
         <javaClientGenerator targetPackage="just.yt.dao"
           targetProject="G:\Github\Project3\src\main\java" type="XMLMAPPER" />
-        <table  tableName="t_user" >
+        <table  tableName="bops_user" >
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
-        <table tableName="t_shoppinglist">
+        <table tableName="examinee">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
-        <table tableName="t_commodity">
+        <table tableName="test_bank">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
-        <table tableName="t_promotion">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
-        </table>
-        <table tableName="t_comment">
+        <table tableName="test_mark">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
     </context>
