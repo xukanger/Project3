@@ -112,7 +112,7 @@
     insert into bops_user (GMT_CREATE, GMT_MODIFIED, STATUS, 
       ACCOUNT, NAME, PASSWORD, 
       USER_TYPE)
-    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+    values (now(), now(), 0,
       #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{userType,jdbcType=VARCHAR})
   </insert>

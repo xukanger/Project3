@@ -13,27 +13,27 @@ import java.util.List;
 public class ${modelUp}Service {
 
     @Resource
-    T${modelUp}Mapper t${modelUp}Mapper;
+    ${modelUp}Mapper ${modelLow}Mapper;
 
 
-    public T${modelUp} insert(T${modelUp} ${modelLow}){
-        t${modelUp}Mapper.insertSelective(${modelLow});
+    public ${modelUp} insert(${modelUp} ${modelLow}){
+        ${modelUp}Mapper.insertSelective(${modelLow});
         return ${modelLow};
     }
 
-    public List<T${modelUp}> getAll(){
-        return t${modelUp}Mapper.selectByExample(new T${modelUp}Example());
+    public List<${modelUp}> getAll(){
+        return ${modelLow}Mapper.selectByExample(new ${modelUp}Example());
     }
 
-    public T${modelUp} update(T${modelUp} ${modelLow}){
-        T${modelUp}Example t${modelUp}Example=new T${modelUp}Example();
-        t${modelUp}Example.createCriteria().andIdEqualTo(${modelLow}.getId());
-        t${modelUp}Mapper.updateByExampleSelective(${modelLow},t${modelUp}Example);
+    public ${modelUp} update(${modelUp} ${modelLow}){
+        ${modelUp}Example ${modelUp}Example=new ${modelUp}Example();
+        ${modelUp}Example.createCriteria().andIdEqualTo(${modelLow}.getId());
+        ${modelUp}Mapper.updateByExampleSelective(${modelLow},${modelUp}Example);
         return ${modelLow};
     }
 
     public boolean delete(Long id){
-        return t${modelUp}Mapper.deleteByPrimaryKey(id) > 0;
+        return ${modelLow}Mapper.deleteByPrimaryKey(id) > 0;
     }
 
     public void save(T${modelUp} ${modelLow}){
@@ -41,17 +41,17 @@ public class ${modelUp}Service {
     }
 
     public Integer count(){
-        return t${modelUp}Mapper.countByExample(new T${modelUp}Example());
+        return ${modelLow}Mapper.countByExample(new ${modelUp}Example());
     }
 
-    public List<T${modelUp}> getByPage(int pageSize,int pageNo){
-        T${modelUp}Example t${modelUp}Example=new T${modelUp}Example();
-        t${modelUp}Example.setLimitStart((pageNo - 1) * pageSize);
-        t${modelUp}Example.setLimitSize(pageSize);
-        return t${modelUp}Mapper.selectByExample(t${modelUp}Example);
+    public List<${modelUp}> getByPage(int pageSize,int pageNo){
+        ${modelUp}Example ${modelUp}Example=new ${modelUp}Example();
+        ${modelUp}Example.setLimitStart((pageNo - 1) * pageSize);
+        ${modelUp}Example.setLimitSize(pageSize);
+        return ${modelLow}Mapper.selectByExample(${modelUp}Example);
         }
 
-        public T${modelUp} getById(Integer id){
-        return t${modelUp}Mapper.selectByPrimaryKey(id);
+        public ${modelUp} getById(Long id){
+        return ${modelLow}Mapper.selectByPrimaryKey(id);
         }
 }

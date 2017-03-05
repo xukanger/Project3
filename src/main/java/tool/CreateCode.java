@@ -15,15 +15,15 @@ import java.io.StringWriter;
  */
 public class CreateCode {
 
-    static final  String controllerStr="G:/Github/Project3/src/main/java/just/yt/controller/";
-    static final String serviceStr="G:/Github/Project3/src/main/java/just/yt/service/";
+    static final  String controllerStr="C:\\Users\\admin\\Desktop\\";
+    static final String serviceStr="C:\\Users\\admin\\Desktop\\";
 
     public static void main(String[] args) throws FileNotFoundException {
         VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, "G:\\Github\\Project3\\src\\main\\java");
+        ve.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, "D:\\workspace\\Project3\\src\\main\\java");
 
         ve.init();
-        String[]strsUp={"Commodity","Shoppinglist","Promotion","Comment"};
+        String[]strsUp={"BopsUser","TestMark"};
         String[]strsLow=new String[strsUp.length];
         for (int i = 0; i < strsUp.length; i++) {
             strsLow[i]=(strsUp[i].substring(0,1).toLowerCase()+strsUp[i].substring(1,strsUp[i].length()));

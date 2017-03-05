@@ -1,0 +1,23 @@
+body {
+	padding-top: 60px;
+}
+
+#container {
+	padding: 0px 10px 10px 10px;
+}
+.btn-login{
+	width: 400px;
+}
+#login {
+	margin: 0 auto;
+	width: 400px;
+	padding-top: 100px;
+}
+
+#login .form-signin-heading {
+	text-align: center;
+}
+
+#login .form-signin input,.form-signin input {
+	margin: 3px 0px;
+}

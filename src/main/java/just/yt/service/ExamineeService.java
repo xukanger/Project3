@@ -59,6 +59,9 @@ public class ExamineeService {
         return examineeMapper.selectByPrimaryKey(id);
     }
 
+    public List<Examinee> selectByExamlpe(ExamineeExample examineeExample){
+        return examineeMapper.selectByExample(examineeExample);
+    }
 
 
 }

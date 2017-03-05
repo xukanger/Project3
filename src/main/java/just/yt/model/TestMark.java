@@ -24,7 +24,7 @@ public class TestMark implements Serializable {
 
     private Integer confirm;
 
-    private String start;
+    private Long start;
 
     private static final long serialVersionUID = 1L;
 
@@ -108,11 +108,11 @@ public class TestMark implements Serializable {
         this.confirm = confirm;
     }
 
-    public String getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Long start) {
         this.start = start;
     }
 
