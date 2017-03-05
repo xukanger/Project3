@@ -4,4 +4,4 @@
 /logs
 *.log
 target
-
+/logs/ssm.log
