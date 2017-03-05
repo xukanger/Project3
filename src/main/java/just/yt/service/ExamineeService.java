@@ -12,7 +12,7 @@ import java.util.List;
  * Created by llf on 2017/3/5.
  *考生信息类的增删改查
  */
-@Service
+@Service("examineeService")
 public class ExamineeService {
 
 
