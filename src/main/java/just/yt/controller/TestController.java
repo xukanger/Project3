@@ -16,8 +16,10 @@ public class TestController {
     public  ModelAndView data() {
         ModelAndView mav = new ModelAndView();
         mav.addObject("city","test");
-        mav.setViewName("helloworld");
+        mav.setViewName("download");
         return mav;
     }
+
+
 
 }
