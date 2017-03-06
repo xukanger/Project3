@@ -28,6 +28,16 @@ public class TestMark implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public TestMark() {
+    }
+
+    public TestMark(Date gmtCreate, Date gmtModified, String identity, String name) {
+        this.gmtCreate = gmtCreate;
+        this.gmtModified = gmtModified;
+        this.identity = identity;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

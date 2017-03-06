@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <!--[if lt IE 9]>
     <link href="/css/bootstrap-ie8.css" rel="stylesheet">
     <script src="/js/html5shiv.min.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="/style/css/lib/bootstrap-3.0.3/css/bootstrap.min.css"/>
-    <script src="/style/js/build/lib/jquery/jquery-1.11.0.min.js"></script>
+    <script src="/style/js/build/lib/jquery/jquery-1.7.min.js"></script>
     <script src="/style/css/lib/bootstrap-3.0.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/style/css/src/site/bops/bops.css"/>
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
@@ -17,10 +19,10 @@
     <div id="container">
         <form id="login" class="form-signin" role="form" action="" method="post">
             <h2 class="form-signin-heading">管理后台</h2>
-            <input type="text" class="form-control" name="name" placeholder="请输入帐号" required autofocus/>
-            <input type="password" class="form-control" name="password" placeholder="请输入密码" required/>
-         <input type="submit" class="btn btn-lg btn-primary btn-block btn-login" value="登录"/>
-      </form>
+            <input type="text" class="form-control .form-signin" style="width: 375px" name="account" placeholder="请输入帐号" required/>
+            <input type="password" class="form-control .form-signin" style="width: 375px" name="password" placeholder="请输入密码" required/>
+            <input type="submit" class="btn btn-lg btn-primary btn-block btn-login" value="登录"/>
+        </form>
      <script type="text/javascript">
         jQuery(function(){
             var f = jQuery('.form-signin');
@@ -31,14 +33,14 @@
             function login(url){
                 var f = jQuery('.form-signin');
                 var $btn = jQuery('.btn-login',f);
-                jQuery.post('/bops/login/doLogin',f.serialize(),function(o){
-                    if(o.result == 0){
+                jQuery.post('/bops/login/dologin',f.serialize(),function(res){
+                    if(res.result == 0){
                         jQuery.tips.success('登陆成功',$btn);
                         setTimeout(function(){
                             document.location.href = url;
                         },800);
                     }else{
-                        jQuery.tips.error(o.message,$btn,4000);
+                        jQuery.tips.error(res.message,$btn,4000);
                     }
                 });
               }

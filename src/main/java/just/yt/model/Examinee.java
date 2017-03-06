@@ -14,6 +14,17 @@ public class Examinee implements Serializable {
 
     private String name;
 
+    public Examinee() {
+    }
+
+    public Examinee(Date gmtCreate, Date gmtModified, String identity, String name, String position) {
+        this.gmtCreate = gmtCreate;
+        this.gmtModified = gmtModified;
+        this.identity = identity;
+        this.name = name;
+        this.position = position;
+    }
+
     private String position;
 
     private static final long serialVersionUID = 1L;

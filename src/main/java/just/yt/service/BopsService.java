@@ -9,8 +9,7 @@ import tool.ExcelUtil;
 
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by yt on 2017/3/4.
@@ -111,19 +110,50 @@ public class BopsService {
      * 导入考生信息
      * */
     public DefaultResult importExaminee(String filepath){
+        List<Examinee> examinees = new ArrayList<Examinee>();
+        List<TestMark> testMarks = new ArrayList<TestMark>();
+        Date now = new Date();
+        List<List<Map<String, String>>> initData;
         try {
-            List<List<Map<String, String>>> initData = ExcelUtil.readExcelWithTitle(filepath);
+            initData = ExcelUtil.readExcelWithTitle(filepath);
         }catch (Exception e){
             e.printStackTrace();
             return  DefaultResult.failResult("导入失败");
         }
-        return  null;
+        List<Map<String, String>> excel = initData.get(0);
+
+        for (Map<String, String> row:excel) {
+            String name = row.get("姓名");
+            String identity = row.get("身份证号码");
+            String position = row.get("报考职位");
+            if (StringUtils.isEmpty(identity)||StringUtils.isEmpty(name)){
+                return  DefaultResult.failResult("有记录的身份证或姓名列为空！");
+            }
+            Examinee e = new Examinee(now,now,identity,name,position);
+            examinees.add(e);
+            TestMark testMark = new TestMark(now,now,identity,name);
+            testMarks.add(testMark);
+        }
+        for (Examinee e: examinees) {
+            examineeService.insert(e);
+        }
+        for (TestMark t:testMarks) {
+            testMarkService.insert(t);
+        }
+        return  DefaultResult.successResult("导入成功");
     }
 
     /**
      * 导出考生成绩
      * */
-    public  DefaultResult outputTestMark(){
+    public  DefaultResult outputTestMarks(String type){
+        if (StringUtils.isEmpty(type)){
+            return null;
+        }
+        TestMarkExample testMarkExample = new TestMarkExample();
+        testMarkExample.createCriteria().andTypeEqualTo(type);
+        List<TestMark> marks = testMarkService.selectByExamlpe(testMarkExample);
+//        Map<String,List<List<ExcelData>>> data = new HashMap<String, List<List<ExcelData>>>();
         return  null;
     }
 
