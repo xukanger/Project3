@@ -2,7 +2,9 @@ package just.yt.service;
 
 import just.yt.dao.BopsUserMapper;
 import just.yt.model.*;
+import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Log4jConfigurer;
 import org.springframework.util.StringUtils;
 import tool.DefaultResult;
 import tool.ExcelUtil;
@@ -223,7 +225,7 @@ public class BopsService {
         }
 
         try {
-            ExcelUtil.writeExcel(os,"考试信息",data);
+            ExcelUtil.writeExcel(os,"xls",data);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -234,7 +236,25 @@ public class BopsService {
      *导出考生答题内容（初试/复试）
      * */
     public  DefaultResult outputConternt(String type){
-        return  null;
+        TestMarkExample testMarkExample = new TestMarkExample();
+        testMarkExample.createCriteria().andTypeEqualTo(type);
+        List<TestMark> marks = testMarkService.selectByExamlpe(testMarkExample);
+        Map<String,String> contents = new HashMap<String, String>();
+        FileOutputStream out = null;
+        for (TestMark mark:marks) {
+            contents.put(mark.getIdentity(),mark.getContent());
+        }
+        try {
+            for (Map.Entry<String, String> entry : contents.entrySet()) {
+                out = new FileOutputStream("A//"+entry.getKey()+".txt");
+                out.write(entry.getValue().getBytes());
+                out.flush();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return DefaultResult.failResult("下载失败");
+        }
+        return  DefaultResult.successResult("下载成功");
     }
 
     private TestMark getByIdentity(List<TestMark> list,String identity){

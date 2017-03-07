@@ -17,13 +17,13 @@
 </head>
 <body>
     <div id="container">
-        <form id="login" class="form-signin" role="form" action="" method="post">
+        <form id="login" class="form-signin" role="form" action="/bops/login/dologin" method="post">
             <h2 class="form-signin-heading">管理后台</h2>
             <input type="text" class="form-control .form-signin" style="width: 375px" name="account" placeholder="请输入帐号" required/>
             <input type="password" class="form-control .form-signin" style="width: 375px" name="password" placeholder="请输入密码" required/>
             <input type="submit" class="btn btn-lg btn-primary btn-block btn-login" value="登录"/>
         </form>
-     <script type="text/javascript">
+    #* <script type="text/javascript">
         jQuery(function(){
             var f = jQuery('.form-signin');
             jQuery('#login').submit(function(){
@@ -46,6 +46,7 @@
               }
            });
         </script>
+        *#
     </div>
 </body>
 </html>

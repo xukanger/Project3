@@ -27,7 +27,11 @@ import java.util.Map;
     public ModelAndView doLogin(Map<String, Object> model, String account, String password) {
         DefaultResult result = bopsService.login(account, password);
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("bopslogin");
+        if (result.isSuccess()){
+            mav.setViewName("bopsindex");
+        }else {
+            mav.setViewName("bopslogin");
+        }
         return mav;
     }
 }
