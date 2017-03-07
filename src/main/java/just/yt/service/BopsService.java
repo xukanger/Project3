@@ -9,6 +9,8 @@ import tool.ExcelUtil;
 
 
 import javax.annotation.Resource;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -127,11 +129,13 @@ public class BopsService {
             String identity = row.get("身份证号码");
             String position = row.get("报考职位");
             if (StringUtils.isEmpty(identity)||StringUtils.isEmpty(name)){
-                return  DefaultResult.failResult("有记录的身份证或姓名列为空！");
+//                return  DefaultResult.failResult("有记录的身份证或姓名列为空！");
+                continue;
             }
             Examinee e = new Examinee(now,now,identity,name,position);
             examinees.add(e);
             TestMark testMark = new TestMark(now,now,identity,name);
+            testMark.setType("A");
             testMarks.add(testMark);
         }
         for (Examinee e: examinees) {
@@ -144,23 +148,100 @@ public class BopsService {
     }
 
     /**
+     * 导入考生成绩
+     * */
+
+    /**
      * 导出考生成绩
      * */
-    public  DefaultResult outputTestMarks(String type){
+    public  DefaultResult outputTestMarks(String type, OutputStream os){
         if (StringUtils.isEmpty(type)){
             return null;
         }
+        Boolean isB = false;
+        //原始数据
         TestMarkExample testMarkExample = new TestMarkExample();
-        testMarkExample.createCriteria().andTypeEqualTo(type);
-        List<TestMark> marks = testMarkService.selectByExamlpe(testMarkExample);
-//        Map<String,List<List<ExcelData>>> data = new HashMap<String, List<List<ExcelData>>>();
-        return  null;
+        List<TestMark> marks = null;
+        List<TestMark> Amarks = new ArrayList<TestMark>();
+        List<TestMark> Bmarks = new ArrayList<TestMark>();
+        if (type.equals("A")) {
+            testMarkExample.createCriteria().andTypeEqualTo(type);
+            marks = testMarkService.selectByExamlpe(testMarkExample);
+            Amarks= marks;
+        }else {
+            isB = true;
+            marks = testMarkService.getAll();
+            for(TestMark mark:marks){
+                if (mark.getType().equals("A")){
+                    Amarks.add(mark);
+                }else {
+                    Bmarks.add(mark);
+                }
+            }
+        }
+
+        List<String> cells = new ArrayList<String>();
+            cells.add("学生姓名");
+            cells.add("身份证号");
+            cells.add("初试题号");
+            cells.add("初试考生答题内容");
+        if (isB) {
+            cells.add("复试题号");
+            cells.add("复试考生答题内容");
+        }
+
+        List<List<String>> rows = new ArrayList<List<String>>();
+        rows.add(cells);
+        if (!isB){
+            for (TestMark mark:marks) {
+                cells = new ArrayList<String>();
+                cells.add(mark.getName());
+                cells.add(mark.getIdentity());
+                cells.add(mark.getNum()+"");
+                cells.add(mark.getContent());
+                rows.add(cells);
+            }
+        }else {
+            for (TestMark bmark:Bmarks){
+                TestMark  amark =  getByIdentity(Amarks,bmark.getIdentity());
+                cells = new ArrayList<String>();
+                cells.add(bmark.getName());
+                cells.add(bmark.getIdentity());
+                cells.add(amark.getNum()+"");
+                cells.add(amark.getContent());
+                cells.add(bmark.getNum()+"");
+                cells.add(bmark.getContent());
+                rows.add(cells);
+            }
+        }
+
+        Map<String,List<List<String>>> data = new HashMap<String, List<List<String>>>();
+        if (isB){
+            data.put("初试考生信息",rows);
+        }else {
+            data.put("复试考生信息",rows);
+        }
+
+        try {
+            ExcelUtil.writeExcel(os,"考试信息",data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  DefaultResult.successResult("下载成功");
     }
 
     /**
      *导出考生答题内容（初试/复试）
      * */
     public  DefaultResult outputConternt(String type){
+        return  null;
+    }
+
+    private TestMark getByIdentity(List<TestMark> list,String identity){
+        for (TestMark l:list){
+            if (identity.equals(l.getIdentity()))
+                return  l;
+        }
         return  null;
     }
 }
