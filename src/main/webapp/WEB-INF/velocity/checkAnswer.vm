@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>考试进行中</title>
+    <script language="JavaScript" src="/style/js/jquery.min.js"></script>
+    <style type="text/css">
+        #currentTime{
+            font-size: 36px;
+        }
+        .main{
+            margin:120px auto;
+            text-align: center;
+        }
+        .main h2{
+            margin:30px auto;
+        }
+        .main span{
+            font-size: 36px;
+        }
+        .main textarea{
+            font-size: 24px;
+        }
+
+        #timer_container{
+            margin:60px auto;
+        }
+        #submit_button{
+            margin:60px auto;
+            font-size: 24px;
+            width:140px;
+            length:30px;
+        }
+        .main form{
+            margin:auto 60px;
+            display: inline-block;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="currentTime"></div>
+<div class="main">
+    <h1>确认考试答案</h1>
+    <textarea name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
+    <form action="/test/checkAnswer" method="post">
+        <input type="submit" id="submit_button" value="确认提交">
+    </form>
+    <form action="/test/modify" method="post">
+        <input type="submit" id="submit_button" value="修改">
+    </form>
+</div>
+
+<script language="javascript">
+    $(function(){
+        setInterval(function(){
+            $("#currentTime").text(new Date().toLocaleString());
+        },1000);
+
+    });
+</script>
+</body>
+</html>

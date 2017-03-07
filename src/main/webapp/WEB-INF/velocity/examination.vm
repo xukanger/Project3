@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>考试进行中</title>
+    <script language="JavaScript" src="/style/js/jquery.min.js"></script>
+    <style type="text/css">
+        #currentTime{
+            font-size: 36px;
+        }
+        .main{
+            margin:120px auto;
+            text-align: center;
+        }
+        .main h2{
+            margin:30px auto;
+        }
+        .main span{
+            font-size: 36px;
+        }
+        .main textarea{
+            font-size: 24px;
+        }
+
+        #timer_container{
+            margin:60px auto;
+        }
+        #submit_button{
+            margin:60px auto;
+            font-size: 36px;
+            width:120px;
+            length:30px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div id="currentTime"></div>
+<div class="main">
+    <div id="timer_container">
+        <h2>距离考试结束还有</h2><span id="restMin"></span><span>分：</span><span id="restSec"></span><span>秒</span>
+    </div>
+    <form action="/test/submit" method="post">
+        <textarea name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
+        <input type="submit" id="submit_button" value="提交">
+    </form>
+</div>
+
+<script language="javascript">
+    $(function(){
+        setInterval(function(){
+            $("#currentTime").text(new Date().toLocaleString());
+        },1000);
+
+        var sec=60*10;
+
+        function countDown(){
+            sec--;
+            if(sec<0)return;
+            $("#restMin").text(parseInt(sec/60));
+            $("#restSec").text(sec-parseInt(sec/60)*60);
+        }
+
+        setInterval(countDown,1000);
+
+    });
+</script>
+</body>
+</html>

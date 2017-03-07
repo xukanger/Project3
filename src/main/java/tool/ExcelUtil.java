@@ -136,7 +136,7 @@ public class ExcelUtil {
         }
     }
 
-    class ExcelData{
+    public class ExcelData{
         private String value;//单元格的值
         private int colSpan = 1;//单元格跨几列
         private int rowSpan = 1;//单元格跨几行
