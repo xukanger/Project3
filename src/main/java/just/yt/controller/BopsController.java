@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import tool.DefaultResult;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -16,6 +17,7 @@ import java.util.Map;
     @Controller
     @RequestMapping("/bops")
     public class BopsController {
+    @Resource
       BopsService bopsService;
      @RequestMapping(value ="/login/login",method= RequestMethod.GET)
      public ModelAndView login() {
