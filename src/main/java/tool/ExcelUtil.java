@@ -30,12 +30,13 @@ public class ExcelUtil {
      * 返回结果最外层的list对应一个excel文件，第二层的list对应一个sheet页，第三层的map对应sheet页中的一行
      * @throws Exception
      */
-    public static List<List<Map<String, String>>> readExcelWithTitle(String filepath) throws Exception{
-        String fileType = filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length());
+    public static List<List<Map<String, String>>> readExcelWithTitle(File file) throws Exception{
+        String fileName = file.getName();
+        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
         InputStream is = null;
         Workbook wb = null;
         try {
-            is = new FileInputStream(filepath);
+            is = new FileInputStream(file);
 
             if (fileType.equals("xls")) {
                 wb = new HSSFWorkbook(is);
