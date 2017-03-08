@@ -1,8 +1,0 @@
-<html>
-    <head>
-        <script type="javascript" src="../js/jquery-1.7.min.js"></script>
-    </head>
-    <body>
-        <h1>${city}</h1>
-    </body>
-</html>

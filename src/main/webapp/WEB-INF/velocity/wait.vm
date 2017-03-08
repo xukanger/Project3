@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>测试等待</title>
+        <script language="JavaScript" src="/style/js/jquery.min.js"></script>
+        <style type="text/css">
+            #currentTime{
+                font-size: 36px;
+            }
+            .main{
+                margin:140px auto;
+                text-align: center;
+            }
+            .main h1{
+                margin:60px auto;
+            }
+            .main div, textarea{
+                font-size: 24px;
+            }
+            .main span{
+                vertical-align:top;
+            }
+            .main input[type=submit]{
+                margin: 30px auto;
+                font-size: 24px;
+                padding:12px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="currentTime"></div>
+        <div class="main">
+            <h1>请等待测试录音播放，确认录音清晰且无差错点击考试按钮进入正式考试</h1>
+            <div>
+                <span>录音中播放内容</span>
+                <textarea rows="10" cols="50" readonly="readonly">录音内容</textarea>
+            </div>
+            <div>
+                <form action="/test/confirm" method="get">
+                    <input type="submit" value="进入考试">
+                </form>
+                <span>请等待广播提示后点击，广播播放前请勿点击</span>
+            </div>
+
+        </div>
+
+        <script language="javascript">
+        $(function(){
+            setInterval(function(){
+                $("#currentTime").text(new Date().toLocaleString());
+            },1000);
+        });
+        </script>
+    </body>
+</html>

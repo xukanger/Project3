@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>选择考题</title>
+    <script language="JavaScript" src="/style/js/jquery.min.js"></script>
+    <style type="text/css">
+        .main{
+            margin:120px auto;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>本场考试已结束</h1>
+    </div>
+
+<script language="javascript">
+
+</script>
+</body>
+</html>
