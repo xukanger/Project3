@@ -6,11 +6,13 @@ import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Log4jConfigurer;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tool.DefaultResult;
 import tool.ExcelUtil;
 
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.*;
@@ -113,13 +115,13 @@ public class BopsService {
     /**
      * 导入考生信息
      * */
-    public DefaultResult importExaminee(String filepath){
+    public DefaultResult importExaminee(MultipartFile file){
         List<Examinee> examinees = new ArrayList<Examinee>();
         List<TestMark> testMarks = new ArrayList<TestMark>();
         Date now = new Date();
         List<List<Map<String, String>>> initData;
         try {
-            initData = ExcelUtil.readExcelWithTitle(filepath);
+            initData = ExcelUtil.readExcelWithTitle(file);
         }catch (Exception e){
             e.printStackTrace();
             return  DefaultResult.failResult("导入失败");

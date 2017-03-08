@@ -5,11 +5,15 @@ import just.yt.service.BopsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import tool.DefaultResult;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -68,11 +72,16 @@ import java.util.Objects;
     }
 
     @RequestMapping(value ="/bopsUser/save",method= RequestMethod.GET)
-    public ModelAndView saveUser(BopsUser user,HttpSession session) {
+    public ModelAndView saveUser(@RequestParam  BopsUser bopsUser, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         if(Objects.isNull(session.getAttribute("user"))) {
             mav.setViewName("redirect:/bops/");
         }
+        if (bopsUser == null){
+            mav.setViewName("addbopsuser");
+            return mav;
+        }
+        bopsService.save(bopsUser);
         mav.setViewName("redirect:/bops/index");
         return  mav;
     }
@@ -84,9 +93,16 @@ import java.util.Objects;
         return  mav;
     }
 
-    @RequestMapping(value ="/bopsUser/excelUpload",method= RequestMethod.GET)
-    public ModelAndView excelUpload() {
-        return  null;
+    @RequestMapping(value ="/bopsUser/excelUpload",method= RequestMethod.POST)
+    public DefaultResult excelUpload(Map<String, Object> model, @RequestParam MultipartFile fileHttpSession,HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        if (fileHttpSession.isEmpty()){
+            return null;
+        }
+        DefaultResult res = bopsService.importExaminee(fileHttpSession);
+        return  res;
     }
 
     @RequestMapping(value ="/bopsUser/outputExamineeA",method= RequestMethod.GET)
