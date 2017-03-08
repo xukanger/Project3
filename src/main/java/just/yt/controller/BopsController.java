@@ -30,10 +30,17 @@ import java.util.Map;
         DefaultResult result = bopsService.login(account, password);
         ModelAndView mav = new ModelAndView();
         if (result.isSuccess()){
+            mav.addObject("user",result.getData());
             mav.setViewName("bopsindex");
         }else {
             mav.setViewName("bopslogin");
         }
         return mav;
+    }
+    @RequestMapping(value ="/bopsUser/add",method= RequestMethod.GET)
+    public ModelAndView addUser() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("addbopsuser");
+        return  mav;
     }
 }

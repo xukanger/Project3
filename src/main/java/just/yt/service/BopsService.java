@@ -65,7 +65,7 @@ public class BopsService {
         return bopsUserMapper.selectByPrimaryKey(id);
     }
 
-    public DefaultResult login(String account, String password){
+    public DefaultResult<BopsUser> login(String account, String password){
         if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)){
             return  DefaultResult.failResult("输入为空");
         }
@@ -81,7 +81,7 @@ public class BopsService {
 
         BopsUser user = users.get(0);
         if (user.getPassword().equals(password)) {
-            return DefaultResult.successResult("登陆成功");
+            return DefaultResult.successResult(user);
         }else {
             return DefaultResult.failResult("密码错误");
         }
