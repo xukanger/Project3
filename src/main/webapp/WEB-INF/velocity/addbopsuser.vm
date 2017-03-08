@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="/style/css/lib/bootstrap-3.0.3/css/bootstrap.min.css"/>
+    <script src="/style/js/build/lib/jquery/jquery-1.11.0.min.js"></script>
+    <script src="/style/css/lib/bootstrap-3.0.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style/css/src/site/bops/bops.css$!{styleViewTools.version()}"/>
+    <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
+    <script src="/style/js/build/app/notify/notify.js"></script>
+    <script src="/style/js/build/app/uploader/fileuploader.js"></script>
     <title>添加管理员</title>
 </head>
 <body>
-
+<style>
+    .form-group{margin-bottom: 5px;}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        #if ($user) 编辑管理员 #else 添加管理员 #end
+    </div>
+    <div class="panel-body">
+        <form id="saveForm" class="form-horizontal" role="form" action="/bops/bopsUser/save">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">账号</label>
+                <div class="col-sm-5">
+                    <input type="hidden" name="user.id" value="$!{user.id}"/>
+                    <input type="text" class="form-control input-sm" id="name" #if($user) readonly #end name="user.account" placeholder="姓名" value="$!{user.name}" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control input-sm" id="name" #if($user) readonly #end name="user.name" placeholder="姓名" value="$!{user.name}" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="norm" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control input-sm" name="user.password" value="" placeholder="密码" data-toggle="tooltip" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-5">
+                    <button id="saveBtn" type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

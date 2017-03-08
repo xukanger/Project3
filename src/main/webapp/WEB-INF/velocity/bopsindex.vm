@@ -14,9 +14,11 @@
         <link rel="stylesheet" href="/style/css/src/site/bops/bops.css"/>
         <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
         <script src="/style/js/build/app/notify/notify.js"></script>
+        <title>BOPS</title>
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -36,14 +38,20 @@
                         <li>
                             <a href="/bops/bopsUser/add">添加管理员</a>
                         </li>
-                        <li class="divider"></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">考生信息<b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/bops/bopsUser/importoutput">导入导出考生信息</a>
+                        </li>
+
+                        <li class="divider"></li>
+                    </ul>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
-            ##            <li>
-            ##                <a href="#">Link</a>
-            ##            </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">$!{user.name}<b class="caret"></b>
                     </a>
@@ -55,6 +63,6 @@
                 </li>
             </ul>
           </div>
-        </nav>
+        </div>
     </body>
 </html>

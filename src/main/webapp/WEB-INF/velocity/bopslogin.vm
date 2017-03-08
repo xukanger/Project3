@@ -14,13 +14,14 @@
     <link rel="stylesheet" href="/style/css/src/site/bops/bops.css"/>
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
     <script src="/style/js/build/app/notify/notify.js"></script>
+    <title>管理后台登录</title>
 </head>
 <body>
     <div id="container">
         <form id="login" class="form-signin" role="form" action="/bops/login/dologin" method="post">
             <h2 class="form-signin-heading">管理后台</h2>
-            <input type="text" class="form-control .form-signin" style="width: 375px" name="account" placeholder="请输入帐号" required/>
-            <input type="password" class="form-control .form-signin" style="width: 375px" name="password" placeholder="请输入密码" required/>
+            <input type="text" class="form-control .form-signin" name="account" placeholder="请输入帐号" required/>
+            <input type="password" class="form-control .form-signin" name="password" placeholder="请输入密码" required/>
             <input type="submit" class="btn btn-lg btn-primary btn-block btn-login" value="登录"/>
         </form>
     #* <script type="text/javascript">
