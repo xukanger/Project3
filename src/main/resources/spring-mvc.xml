@@ -73,4 +73,12 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
 
+    <!--<mvc:interceptors>-->
+        <!--&lt;!&ndash; 多个拦截器，顺序执行 &ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="just.yt.interceper"></bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
+
 </beans>

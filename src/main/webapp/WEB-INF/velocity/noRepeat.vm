@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>结束考试</title>
+    <title>请不要重复提交</title>
     <script language="JavaScript" src="/style/js/jquery.min.js"></script>
     <style type="text/css">
         .main{
@@ -12,13 +12,9 @@
 
     </style>
 </head>
-<body>
-    <div class="main">
-        <h1>本场考试已结束</h1>
-    </div>
-
-<script language="javascript">
-
-</script>
-</body>
+    <body>
+        <div class="main">
+            <h1>请不要重复提交</h1>
+        </div>
+    </body>
 </html>

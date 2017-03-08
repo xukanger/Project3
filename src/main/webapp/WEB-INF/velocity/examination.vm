@@ -44,7 +44,7 @@
     </div>
     <form action="/test/submit" method="post">
         <textarea name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
-        <input type="submit" id="submit_button" value="提交">
+        <input type="submit" id="submit_button" value="提交" disabled="disabled">
     </form>
 </div>
 
@@ -53,8 +53,11 @@
         setInterval(function(){
             $("#currentTime").text(new Date().toLocaleString());
         },1000);
-
-        var sec=60*10;
+        var startTime=$!{startTime};
+        var date=new Date();
+        var current=date.getTime();
+        var usedTime=current-startTime;
+        var sec=60*13-parseInt(usedTime/1000);
 
         function countDown(){
             sec--;
@@ -65,6 +68,9 @@
 
         setInterval(countDown,1000);
 
+        setTimeout(function () {
+            $("#submit_button").removeAttr("disabled");
+        },1000*60*10)
     });
 </script>
 </body>
