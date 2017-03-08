@@ -6,6 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,13 +31,13 @@ public class ExcelUtil {
      * 返回结果最外层的list对应一个excel文件，第二层的list对应一个sheet页，第三层的map对应sheet页中的一行
      * @throws Exception
      */
-    public static List<List<Map<String, String>>> readExcelWithTitle(File file) throws Exception{
+    public static List<List<Map<String, String>>> readExcelWithTitle(MultipartFile file) throws Exception{
         String fileName = file.getName();
         String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
         InputStream is = null;
         Workbook wb = null;
         try {
-            is = new FileInputStream(file);
+            is = file.getInputStream();
 
             if (fileType.equals("xls")) {
                 wb = new HSSFWorkbook(is);
