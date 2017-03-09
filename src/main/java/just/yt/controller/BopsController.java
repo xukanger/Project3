@@ -2,6 +2,10 @@ package just.yt.controller;
 
 import just.yt.model.BopsUser;
 import just.yt.service.BopsService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +19,14 @@ import tool.DefaultResult;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -77,11 +86,19 @@ import java.util.Objects;
     }
 
     @RequestMapping(value ="/bopsUser/save",method= RequestMethod.GET)
-    public ModelAndView saveUser(@RequestParam  BopsUser bopsUser, HttpSession session) {
+    public ModelAndView saveUser(@RequestParam  String account,@RequestParam String name, @RequestParam String password,HttpSession session) {
         ModelAndView mav = new ModelAndView();
         if(Objects.isNull(session.getAttribute("user"))) {
             mav.setViewName("redirect:/bops/");
         }
+        BopsUser bopsUser =new BopsUser();
+        bopsUser.setAccount(account);
+        bopsUser.setName(name);
+        bopsUser.setPassword(password);
+        bopsUser.setStatus(0);
+        bopsUser.setGmtCreate(new Date());
+        bopsUser.setGmtModified(new Date());
+
         if (bopsUser == null){
             mav.setViewName("addbopsuser");
             return mav;
@@ -112,17 +129,64 @@ import java.util.Objects;
         return  res;
     }
 
-    @RequestMapping(value ="/bopsUser/outputExamineeA",method= RequestMethod.GET)
-    public ModelAndView outputExamineeA() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("addbopsuser");
-        return  mav;
+    @RequestMapping(value ="/bopsUser/outputExamineeA",method= RequestMethod.POST)
+    public byte[] outputExamineeA(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        response.setContentType("application/vnd.ms-excel");
+        String fileName = "default.xls";
+        try {
+             fileName = URLEncoder.encode("初试考生信息.xls", "UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        response.setHeader( "Content-Disposition", "attachment;filename=" + fileName);
+        OutputStream os = null;
+
+            //for zip file
+        response.setContentType("application/zip");
+        try {
+            os = response.getOutputStream();
+            bopsService.outputTestMarks("A",os);
+            os.flush();
+            os.close();
+        }catch (Exception e){
+            e.printStackTrace();
+           return  null;
+        }
+        return null;
     }
 
-    @RequestMapping(value ="/bopsUser/outputExamineeB",method= RequestMethod.GET)
-    public ModelAndView outputExamineeB() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("addbopsuser");
-        return  mav;
+    @RequestMapping(value ="/bopsUser/outputExamineeB",method= RequestMethod.POST)
+    public ModelAndView outputExamineeB(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        response.setContentType("application/vnd.ms-excel");
+        String fileName = "default.xls";
+        try {
+            fileName = URLEncoder.encode("复试考生信息.xls", "UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        response.setHeader( "Content-Disposition", "attachment;filename=" +fileName );
+        OutputStream os = null;
+
+        //for zip file
+        response.setContentType("application/zip");
+        try {
+            os = response.getOutputStream();
+            bopsService.outputTestMarks("B",os);
+            os.flush();
+            os.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return  null;
+        }
+        return null;
     }
+
+
+
 }

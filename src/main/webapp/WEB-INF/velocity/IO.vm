@@ -71,10 +71,21 @@
         </ul>
     </div>
 </div>
-<h1>导入考生信息</h1>
+<h2>导入考生信息</h2>
     <form method="POST" action="/bops/bopsUser/excelUpload" enctype="multipart/form-data">
-          上传文件:  <input  class="projectfile" type="file" name="file" style="margin-bottom: 10px">
+          上传文件:  <input  class="projectfile" type="file" name="file" style="margin:10px 0">
          <input class="btn btn-primary" type="submit" value="单击此处上传Excel">
+    </form>
+    <h2>导出初试考生成绩</h2>
+    <form method="POST" action="/bops/bopsUser/outputExamineeA" style="margin:10px 0">
+         下载A:
+       <input class="btn btn-primary" type="submit" value="单击此处下载初试Excel">
+    </form>
+
+    <h2>导出复试试考生成绩</h2>
+    <form method="POST" action="/bops/bopsUser/outputExamineeB" style="margin:10px 0">
+        下载B:
+         <input class="btn btn-primary" type="submit" value="单击此处下载复试Excel">
     </form>
 </body>
 </html>

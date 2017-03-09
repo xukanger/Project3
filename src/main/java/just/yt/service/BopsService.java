@@ -203,7 +203,7 @@ public class BopsService {
                 cells = new ArrayList<String>();
                 cells.add(mark.getName());
                 cells.add(mark.getIdentity());
-                cells.add(mark.getNum()+"");
+                cells.add(String.valueOf(mark.getNum()));
                 cells.add(mark.getContent());
                 rows.add(cells);
             }
@@ -222,7 +222,7 @@ public class BopsService {
         }
 
         Map<String,List<List<String>>> data = new HashMap<String, List<List<String>>>();
-        if (isB){
+        if (!isB){
             data.put("初试考生信息",rows);
         }else {
             data.put("复试考生信息",rows);
@@ -239,7 +239,7 @@ public class BopsService {
     /**
      *导出考生答题内容（初试/复试）
      * */
-    public  DefaultResult outputConternt(String type){
+    public  DefaultResult outputContent(String type){
         TestMarkExample testMarkExample = new TestMarkExample();
         testMarkExample.createCriteria().andTypeEqualTo(type);
         List<TestMark> marks = testMarkService.selectByExamlpe(testMarkExample);
