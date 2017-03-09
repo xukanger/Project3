@@ -10,6 +10,18 @@
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
     <script src="/style/js/build/app/notify/notify.js"></script>
     <script src="/style/js/build/app/uploader/fileuploader.js"></script>
+        <!-- Force latest IE rendering engine or ChromeFrame if installed -->
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+        <link rel="stylesheet" href="/style/css/style.css">
+        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+        <link rel="stylesheet" href="/style/css/jquery.fileupload.css">
+    <script src="/style/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script src="/style/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="/style/js/jquery.fileupload.js"></script>
+    <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <title>导入导出考生信息</title>
 </head>
 <body>
@@ -60,39 +72,9 @@
     </div>
 </div>
 <h1>导入考生信息</h1>
-<button id="upload" type="button" class="btn btn-primary">上传Excel文件</button>
-<br/>
-<input id="excelPath" type="text" style="width:600px"/>
-<script>
-    jQuery(function(){
-        excelUpload();
-        function excelUpload(){
-            var excelUploader = new qq.FileUploaderBasic({
-                button: document.getElementById('upload'),
-                action: '/bops/bopsUser/excelUpload',
-                allowedExtensions: ['xls','xlsx'],
-                onComplete: function(id, fileName, res){
-                    var btn = jQuery(this.button);
-                    if(!res && !res.data){
-                        btn.notify('上传出现异常，请稍候重试！', "error");
-                        return;
-                    }
-                    if(res && res.result == 0){
-                        $('#excelPath').val(res.data.path);
-                    }else{
-                        btn.notify(res.message, "error");
-                    }
-                },
-                messages: {
-                    typeError: "请上传xls,.xlsx格式的文件"
-                },
-                showMessage: function(msg){
-                    btn.notify(res.message, "success");
-                }
-            });
-        }
-    })
-</script>
+    <form method="POST" action="/bops/bopsUser/excelUpload" enctype="multipart/form-data">
+          上传文件:  <input  class="projectfile" type="file" name="file" style="margin-bottom: 10px">
+         <input class="btn btn-primary" type="submit" value="单击此处上传Excel">
+    </form>
 </body>
-
 </html>

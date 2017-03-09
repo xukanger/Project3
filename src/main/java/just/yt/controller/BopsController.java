@@ -3,16 +3,21 @@ package just.yt.controller;
 import just.yt.model.BopsUser;
 import just.yt.service.BopsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import tool.DefaultResult;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Objects;
 
@@ -94,14 +99,16 @@ import java.util.Objects;
     }
 
     @RequestMapping(value ="/bopsUser/excelUpload",method= RequestMethod.POST)
-    public DefaultResult excelUpload(Map<String, Object> model, @RequestParam MultipartFile fileHttpSession,HttpSession session) {
+    public @ResponseBody  DefaultResult excelUpload(Map<String, Object> model, @RequestParam  MultipartFile file, HttpSession session) {
         if(Objects.isNull(session.getAttribute("user"))) {
-            return null;
+            return DefaultResult.failResult("用户未登录");
         }
-        if (fileHttpSession.isEmpty()){
-            return null;
+        System.out.println(file.getOriginalFilename());
+        System.out.println(file.getName());
+        if (!(file.getOriginalFilename().endsWith(".xls")||file.getOriginalFilename().endsWith(".xlsx"))){
+            return DefaultResult.failResult("文件格式不正确");
         }
-        DefaultResult res = bopsService.importExaminee(fileHttpSession);
+        DefaultResult res = bopsService.importExaminee(file);
         return  res;
     }
 

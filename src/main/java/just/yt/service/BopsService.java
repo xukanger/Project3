@@ -24,7 +24,9 @@ import java.util.*;
 public class BopsService {
     @Resource
     BopsUserMapper bopsUserMapper;
+    @Resource
     ExamineeService examineeService;
+    @Resource
     TestMarkService testMarkService;
 
 

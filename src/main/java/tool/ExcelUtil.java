@@ -32,20 +32,11 @@ public class ExcelUtil {
      * @throws Exception
      */
     public static List<List<Map<String, String>>> readExcelWithTitle(MultipartFile file) throws Exception{
-        String fileName = file.getName();
-        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
         InputStream is = null;
         Workbook wb = null;
         try {
             is = file.getInputStream();
-
-            if (fileType.equals("xls")) {
-                wb = new HSSFWorkbook(is);
-            } else if (fileType.equals("xlsx")) {
-                wb = new XSSFWorkbook(is);
-            } else {
-                throw new Exception("读取的不是excel文件");
-            }
+            wb = new XSSFWorkbook(is);
 
             List<List<Map<String, String>>> result = new ArrayList<List<Map<String,String>>>();//对应excel文件
 
