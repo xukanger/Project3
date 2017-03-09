@@ -173,11 +173,29 @@ import java.util.Objects;
         response.setHeader( "Content-Disposition", "attachment;filename=" +fileName );
         OutputStream os = null;
 
-        //for zip file
-        response.setContentType("application/zip");
         try {
             os = response.getOutputStream();
             bopsService.outputTestMarks("B",os);
+            os.flush();
+            os.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return  null;
+        }
+        return null;
+    }
+
+    @RequestMapping(value ="/bopsUser/downloadcontent",method= RequestMethod.POST)
+    public ModelAndView downloadContent(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        response.setHeader( "Content-Disposition", "attachment;filename=" +"score.zip" );
+        OutputStream os = null;
+        response.setContentType("application/zip");
+        try {
+            os = response.getOutputStream();
+            bopsService.outputContent(os);
             os.flush();
             os.close();
         }catch (Exception e){
