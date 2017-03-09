@@ -63,5 +63,10 @@
             </ul>
           </div>
         </div>
+
+        <h2>清空考生记录</h2>
+        <form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
+            <input class="btn btn-danger" type="submit" value="单击此处清空考生记录">
+        </form>
     </body>
 </html>

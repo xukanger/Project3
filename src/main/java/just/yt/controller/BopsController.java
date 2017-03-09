@@ -205,6 +205,13 @@ import java.util.Objects;
         return null;
     }
 
-
+    @RequestMapping(value ="/bopsUser/delete",method= RequestMethod.POST)
+    public @ResponseBody DefaultResult downloadContent(HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return DefaultResult.failResult("用户未登录！");
+        }
+        DefaultResult rs = bopsService.deleteAll();
+        return  rs;
+    }
 
 }

@@ -257,9 +257,7 @@ public class BopsService {
         }
         try {
             for (Map.Entry<String, String> entry : acontents.entrySet()) {
-                if (Objects.isNull(entry.getKey())) continue;
-                os.write(entry.getValue().getBytes());
-
+                if (Objects.isNull(entry)) continue;
                 String filePath = "D://score//A//";
                 File file=new File(filePath);
                 if (!file.exists())
@@ -268,15 +266,14 @@ public class BopsService {
                 file = new File(filePath);
                 if (!file.exists())  file.createNewFile();
                 FileOutputStream  fos = new FileOutputStream(file);
-                fos.write(entry.getValue().getBytes("UTF-8"));
+                if (entry.getValue()!= null)
+                    fos.write(entry.getValue().getBytes("UTF-8"));
                 fos.flush();
                 fos.close();
             }
 
             for (Map.Entry<String, String> entry : bcontents.entrySet()) {
-                if (Objects.isNull(entry.getKey())) continue;
-                os.write(entry.getValue().getBytes());
-
+                if (Objects.isNull(entry)) continue;
                 String filePath = "D://score//B//";
                 File file=new File(filePath);
                 if (!file.exists())
@@ -285,6 +282,7 @@ public class BopsService {
                 file = new File(filePath);
                 if (!file.exists())  file.createNewFile();
                 FileOutputStream  fos = new FileOutputStream(file);
+                if (entry.getValue()!= null)
                 fos.write(entry.getValue().getBytes("UTF-8"));
                 fos.flush();
                 fos.close();
@@ -301,7 +299,6 @@ public class BopsService {
         fis.read(buffer);
         fis.close();
         os.write(buffer);
-
         temp.delete();
         removedir(new File("D://score"));
         return  DefaultResult.successResult("下载成功");
@@ -368,4 +365,12 @@ public class BopsService {
         //一层目录下的内容都删除以后，删除掉这个文件夹
         file.delete();
     }
+
+    //删除所有考生信息
+    public DefaultResult deleteAll(){
+        examineeService.deleteAll();
+        testMarkService.deleteAll();
+        return  DefaultResult.successResult("删除成功");
+    }
+
 }

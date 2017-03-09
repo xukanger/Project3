@@ -28,7 +28,7 @@ public class ExamineeService {
     public List<Examinee> getAll(){
         return examineeMapper.selectByExample(new ExamineeExample());
     }
-
+    int deleteAll(){return examineeMapper.deleteByExample(new ExamineeExample());};
     public Examinee update(Examinee examinee){
         ExamineeExample examineeExample=new ExamineeExample();
         examineeExample.createCriteria().andIdEqualTo(examinee.getId());

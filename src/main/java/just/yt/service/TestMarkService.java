@@ -24,7 +24,7 @@ public class TestMarkService {
     public List<TestMark> getAll(){
         return testMarkMapper.selectByExample(new TestMarkExample());
     }
-
+    int deleteAll(){return testMarkMapper.deleteByExample(new  TestMarkExample());};
     public TestMark update(TestMark testMark){
         TestMarkExample TestMarkExample=new TestMarkExample();
         TestMarkExample.createCriteria().andIdEqualTo(testMark.getId());
