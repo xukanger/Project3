@@ -61,7 +61,10 @@
 
         function countDown(){
             sec--;
-            if(sec<0)return;
+            if(sec<0){
+
+                return;
+            }
             $("#restMin").text(parseInt(sec/60));
             $("#restSec").text(sec-parseInt(sec/60)*60);
         }
@@ -71,6 +74,8 @@
         setTimeout(function () {
             $("#submit_button").removeAttr("disabled");
         },1000*60*10)
+
+
     });
 </script>
 </body>

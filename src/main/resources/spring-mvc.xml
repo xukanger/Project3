@@ -15,6 +15,12 @@
     <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
     <context:component-scan base-package="just.yt.controller" />
     <mvc:annotation-driven/>
+
+
+    <mvc:interceptors>
+        <bean class="just.yt.interceptor.LoginInterceptor" />
+    </mvc:interceptors>
+
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
     <bean id="mappingJacksonHttpMessageConverter"
           class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -73,12 +79,6 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
 
-    <!--<mvc:interceptors>-->
-        <!--&lt;!&ndash; 多个拦截器，顺序执行 &ndash;&gt;-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--<bean class="just.yt.interceper"></bean>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+
 
 </beans>

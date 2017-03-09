@@ -30,19 +30,12 @@ public class TestController {
     @Resource
     TestMarkService testMarkService;
 
-    /*
-     *以后做404
-     */
-    @RequestMapping(value ="/**",method= RequestMethod.GET)
-    public  String exception() {
-        return "redirect:/test/";
-    }
 
     /*
      *登陆页面
      *
      */
-    @RequestMapping(value ="/",method= RequestMethod.GET)
+    @RequestMapping(value ="/login",method= RequestMethod.GET)
     public  String index() {
         return "login";
     }
@@ -60,8 +53,7 @@ public class TestController {
 
         ModelAndView mav = new ModelAndView();
 
-        if(list.size()==0){//query fails
-            //TODO
+        if(list.size()==0){
             mav.setViewName("redirect:/test/");
         }else{
             session.setAttribute("user",list.get(0));
@@ -76,9 +68,6 @@ public class TestController {
      */
     @RequestMapping(value ="/confirm",method= RequestMethod.GET)
     public  String confirmRecord(HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user")))
-            return "redirect:/test/";
-        else
             return "choose";
     }
 
@@ -129,21 +118,18 @@ public class TestController {
     @RequestMapping(value ="/submit",method= RequestMethod.POST)
     public  ModelAndView submitAnswer(HttpSession session,@RequestParam String answer) {
         ModelAndView mav = new ModelAndView();
-        if(Objects.isNull(session.getAttribute("user")))
-            mav.setViewName("redirect:/test/");
-        else {
-            TestMark testMark = (TestMark) session.getAttribute("testMark");
-            if(!Objects.isNull(testMark.getConfirm())&&testMark.getConfirm()==1){
-                mav.setViewName("redirect:/test/noRepeat");
-                return mav;
-            }
-            testMark.setContent(answer);
-            testMarkService.update(testMark);
-            mav.addObject("answer",answer);
-
-            mav.addObject("startTime",((TestMark) session.getAttribute("testMark")).getStart());
-            mav.setViewName("checkAnswer");
+        TestMark testMark = (TestMark) session.getAttribute("testMark");
+        if(!Objects.isNull(testMark.getConfirm())&&testMark.getConfirm()==1){
+            mav.setViewName("redirect:/test/noRepeat");
+            return mav;
         }
+        testMark.setContent(answer);
+        testMarkService.update(testMark);
+        mav.addObject("answer",answer);
+
+        mav.addObject("startTime",((TestMark) session.getAttribute("testMark")).getStart());
+        mav.setViewName("checkAnswer");
+
         return mav;
     }
 
@@ -154,43 +140,27 @@ public class TestController {
     @RequestMapping(value ="/modify",method= RequestMethod.POST)
     public  ModelAndView modify(HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        if(Objects.isNull(session.getAttribute("user")))
-            mav.setViewName("redirect:/test/");
-        else {
-            mav.setViewName("redirect:/test/test");
-        }
+        mav.setViewName("redirect:/test/test");
         return mav;
     }
 
 
     @RequestMapping(value ="/checkAnswer",method= RequestMethod.POST)
     public  String confirmAnswer(HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user")))
-            return "redirect:/test/";
-        else {
             TestMark testMark =(TestMark) session.getAttribute("testMark");
             testMark.setConfirm(1);
             testMarkService.update(testMark);
             return "redirect:/test/finish";
-        }
     }
 
     @RequestMapping(value ="/finish",method= RequestMethod.GET)
     public  String finish(HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user")))
-            return "redirect:/test/";
-        else {
-            return "finish";
-        }
+        return "finish";
     }
 
     @RequestMapping(value ="/noRepeat",method= RequestMethod.GET)
     public  String noRepeat(HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user")))
-            return "redirect:/test/";
-        else {
-            return "noRepeat";
-        }
+        return "noRepeat";
     }
 
 
