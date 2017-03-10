@@ -173,8 +173,6 @@ import java.util.Objects;
         response.setHeader( "Content-Disposition", "attachment;filename=" +fileName );
         OutputStream os = null;
 
-        //for zip file
-        response.setContentType("application/zip");
         try {
             os = response.getOutputStream();
             bopsService.outputTestMarks("B",os);
@@ -187,6 +185,33 @@ import java.util.Objects;
         return null;
     }
 
+    @RequestMapping(value ="/bopsUser/downloadcontent",method= RequestMethod.POST)
+    public ModelAndView downloadContent(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        response.setHeader( "Content-Disposition", "attachment;filename=" +"score.zip" );
+        OutputStream os = null;
+        response.setContentType("application/zip");
+        try {
+            os = response.getOutputStream();
+            bopsService.outputContent(os);
+            os.flush();
+            os.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return  null;
+        }
+        return null;
+    }
 
+    @RequestMapping(value ="/bopsUser/delete",method= RequestMethod.POST)
+    public @ResponseBody DefaultResult downloadContent(HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return DefaultResult.failResult("用户未登录！");
+        }
+        DefaultResult rs = bopsService.deleteAll();
+        return  rs;
+    }
 
 }

@@ -12,10 +12,11 @@ import tool.ExcelUtil;
 
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by yt on 2017/3/4.
@@ -239,25 +240,67 @@ public class BopsService {
     /**
      *导出考生答题内容（初试/复试）
      * */
-    public  DefaultResult outputContent(String type){
-        TestMarkExample testMarkExample = new TestMarkExample();
-        testMarkExample.createCriteria().andTypeEqualTo(type);
-        List<TestMark> marks = testMarkService.selectByExamlpe(testMarkExample);
-        Map<String,String> contents = new HashMap<String, String>();
-        FileOutputStream out = null;
-        for (TestMark mark:marks) {
-            contents.put(mark.getIdentity(),mark.getContent());
+    public  DefaultResult outputContent(OutputStream os) throws Exception {
+        TestMarkExample testMarkExamplea = new TestMarkExample();
+        testMarkExamplea.createCriteria().andTypeEqualTo("A");
+        List<TestMark> amarks = testMarkService.selectByExamlpe(testMarkExamplea);
+        TestMarkExample testMarkExampleb = new TestMarkExample();
+        testMarkExampleb.createCriteria().andTypeEqualTo("B");
+        List<TestMark> bmarks = testMarkService.selectByExamlpe(testMarkExampleb);
+        Map<String,String> acontents = new HashMap<String, String>();
+        Map<String,String> bcontents = new HashMap<String, String>();
+        for (TestMark mark:amarks) {
+            acontents.put(mark.getIdentity(),mark.getContent());
+        }
+        for (TestMark mark:bmarks) {
+            bcontents.put(mark.getIdentity(),mark.getContent());
         }
         try {
-            for (Map.Entry<String, String> entry : contents.entrySet()) {
-                out = new FileOutputStream("A//"+entry.getKey()+".txt");
-                out.write(entry.getValue().getBytes());
-                out.flush();
+            for (Map.Entry<String, String> entry : acontents.entrySet()) {
+                if (Objects.isNull(entry)) continue;
+                String filePath = "D://score//A//";
+                File file=new File(filePath);
+                if (!file.exists())
+                file.mkdirs();
+                filePath += entry.getKey()+".txt";
+                file = new File(filePath);
+                if (!file.exists())  file.createNewFile();
+                FileOutputStream  fos = new FileOutputStream(file);
+                if (entry.getValue()!= null)
+                    fos.write(entry.getValue().getBytes("UTF-8"));
+                fos.flush();
+                fos.close();
+            }
+
+            for (Map.Entry<String, String> entry : bcontents.entrySet()) {
+                if (Objects.isNull(entry)) continue;
+                String filePath = "D://score//B//";
+                File file=new File(filePath);
+                if (!file.exists())
+                    file.mkdirs();
+                filePath += entry.getKey()+".txt";
+                file = new File(filePath);
+                if (!file.exists())  file.createNewFile();
+                FileOutputStream  fos = new FileOutputStream(file);
+                if (entry.getValue()!= null)
+                fos.write(entry.getValue().getBytes("UTF-8"));
+                fos.flush();
+                fos.close();
             }
         }catch (Exception e){
             e.printStackTrace();
             return DefaultResult.failResult("下载失败");
         }
+
+        zip("D://score//","D://temp.zip");
+        File temp = new File("D://temp.zip");
+        BufferedInputStream fis = new BufferedInputStream(new FileInputStream(temp.getPath()));
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        os.write(buffer);
+        temp.delete();
+        removedir(new File("D://score"));
         return  DefaultResult.successResult("下载成功");
     }
 
@@ -268,4 +311,66 @@ public class BopsService {
         }
         return  null;
     }
+
+    /**
+     *
+     * @param inputFileName
+     *            输入一个文件夹
+     * @param zipFileName
+     *            输出一个压缩文件夹，打包后文件名字
+     * @throws Exception
+     */
+    public  void zip(String inputFileName, String zipFileName) throws Exception {
+        zip(zipFileName, new File(inputFileName));
+    }
+
+    private  void zip(String zipFileName, File inputFile) throws Exception {
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
+        zip(out, inputFile, "");
+        out.close();
+    }
+
+    private  void zip(ZipOutputStream out, File f, String base) throws Exception {
+        if (f.isDirectory()) { // 判断是否为目录
+            File[] fl = f.listFiles();
+            out.putNextEntry(new ZipEntry(base + "/"));
+            base = base.length() == 0 ? "" : base + "/";
+            for (int i = 0; i < fl.length; i++) {
+                zip(out, fl[i], base + fl[i].getName());
+            }
+        } else { // 压缩目录中的所有文件
+            out.putNextEntry(new ZipEntry(base));
+            FileInputStream in = new FileInputStream(f);
+            int b;
+            while ((b = in.read()) != -1) {
+                out.write(b);
+            }
+            in.close();
+        }
+    }
+    //删除文件夹以及其中内容
+    public  void removedir(File file)
+    {
+        File[] files=file.listFiles();
+        for(File f:files)
+        {
+            if(f.isDirectory())//递归调用
+            {
+                removedir(f);
+            }
+            else {
+                f.delete();
+            }
+        }
+        //一层目录下的内容都删除以后，删除掉这个文件夹
+        file.delete();
+    }
+
+    //删除所有考生信息
+    public DefaultResult deleteAll(){
+        examineeService.deleteAll();
+        testMarkService.deleteAll();
+        return  DefaultResult.successResult("删除成功");
+    }
+
 }
