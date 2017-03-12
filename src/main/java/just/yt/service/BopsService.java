@@ -120,7 +120,6 @@ public class BopsService {
      * */
     public DefaultResult importExaminee(MultipartFile file){
         List<Examinee> examinees = new ArrayList<Examinee>();
-        List<TestMark> testMarks = new ArrayList<TestMark>();
         Date now = new Date();
         List<List<Map<String, String>>> initData;
         try {
@@ -143,13 +142,9 @@ public class BopsService {
             examinees.add(e);
             TestMark testMark = new TestMark(now,now,identity,name);
             testMark.setType("A");
-            testMarks.add(testMark);
         }
         for (Examinee e: examinees) {
             examineeService.insert(e);
-        }
-        for (TestMark t:testMarks) {
-            testMarkService.insert(t);
         }
         return  DefaultResult.successResult("导入成功");
     }
