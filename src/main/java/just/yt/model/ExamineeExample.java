@@ -514,6 +514,136 @@ public class ExamineeExample {
             addCriterion("POSITION not between", value1, value2, "position");
             return (Criteria) this;
         }
+
+        public Criteria andEndIsNull() {
+            addCriterion("END is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndIsNotNull() {
+            addCriterion("END is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndEqualTo(Byte value) {
+            addCriterion("END =", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndNotEqualTo(Byte value) {
+            addCriterion("END <>", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndGreaterThan(Byte value) {
+            addCriterion("END >", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndGreaterThanOrEqualTo(Byte value) {
+            addCriterion("END >=", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLessThan(Byte value) {
+            addCriterion("END <", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLessThanOrEqualTo(Byte value) {
+            addCriterion("END <=", value, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndIn(List<Byte> values) {
+            addCriterion("END in", values, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndNotIn(List<Byte> values) {
+            addCriterion("END not in", values, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndBetween(Byte value1, Byte value2) {
+            addCriterion("END between", value1, value2, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndNotBetween(Byte value1, Byte value2) {
+            addCriterion("END not between", value1, value2, "end");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIsNull() {
+            addCriterion("BATCH is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIsNotNull() {
+            addCriterion("BATCH is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchEqualTo(String value) {
+            addCriterion("BATCH =", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNotEqualTo(String value) {
+            addCriterion("BATCH <>", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchGreaterThan(String value) {
+            addCriterion("BATCH >", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchGreaterThanOrEqualTo(String value) {
+            addCriterion("BATCH >=", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchLessThan(String value) {
+            addCriterion("BATCH <", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchLessThanOrEqualTo(String value) {
+            addCriterion("BATCH <=", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchLike(String value) {
+            addCriterion("BATCH like", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNotLike(String value) {
+            addCriterion("BATCH not like", value, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchIn(List<String> values) {
+            addCriterion("BATCH in", values, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNotIn(List<String> values) {
+            addCriterion("BATCH not in", values, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchBetween(String value1, String value2) {
+            addCriterion("BATCH between", value1, value2, "batch");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatchNotBetween(String value1, String value2) {
+            addCriterion("BATCH not between", value1, value2, "batch");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

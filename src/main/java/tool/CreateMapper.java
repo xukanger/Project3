@@ -27,9 +27,7 @@ public class CreateMapper {
         Configuration config = null;
         try {
             config = cp.parseConfiguration(configFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XMLParserException e) {
+        } catch (IOException | XMLParserException e) {
             e.printStackTrace();
         }
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
@@ -41,13 +39,11 @@ public class CreateMapper {
         }
         try {
             myBatisGenerator.generate(null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            System.out.println("fasgyufgsa");
+        } catch (SQLException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println(warnings);
     }
 
 }

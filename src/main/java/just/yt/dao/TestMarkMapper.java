@@ -16,21 +16,15 @@ public interface TestMarkMapper {
 
     int insertSelective(TestMark record);
 
-    List<TestMark> selectByExampleWithBLOBs(TestMarkExample example);
-
     List<TestMark> selectByExample(TestMarkExample example);
 
     TestMark selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TestMark record, @Param("example") TestMarkExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") TestMark record, @Param("example") TestMarkExample example);
-
     int updateByExample(@Param("record") TestMark record, @Param("example") TestMarkExample example);
 
     int updateByPrimaryKeySelective(TestMark record);
-
-    int updateByPrimaryKeyWithBLOBs(TestMark record);
 
     int updateByPrimaryKey(TestMark record);
 }

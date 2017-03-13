@@ -5,6 +5,7 @@
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="GMT_CREATE" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="GMT_MODIFIED" property="gmtModified" jdbcType="TIMESTAMP" />
+    <result column="START" property="start" jdbcType="BIGINT" />
     <result column="IDENTITY" property="identity" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="TYPE" property="type" jdbcType="VARCHAR" />
@@ -12,9 +13,6 @@
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
     <result column="RATE" property="rate" jdbcType="DOUBLE" />
     <result column="CONFIRM" property="confirm" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="just.yt.model.TestMark" extends="BaseResultMap" >
-    <result column="START" property="start" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,30 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, GMT_CREATE, GMT_MODIFIED, IDENTITY, NAME, TYPE, NUM, CONTENT, RATE, CONFIRM
+    ID, GMT_CREATE, GMT_MODIFIED, START, IDENTITY, NAME, TYPE, NUM, CONTENT, RATE, CONFIRM
   </sql>
-  <sql id="Blob_Column_List" >
-    START
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="just.yt.model.TestMarkExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from test_mark
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-    <if test="limitStart != null and limitSize >= 0" >
-      limit #{limitStart} , #{limitSize}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="just.yt.model.TestMarkExample" >
     select
     <if test="distinct" >
@@ -116,11 +92,9 @@
       limit #{limitStart} , #{limitSize}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from test_mark
     where ID = #{id,jdbcType=BIGINT}
   </select>
@@ -138,14 +112,14 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into test_mark (GMT_CREATE, GMT_MODIFIED, IDENTITY, 
-      NAME, TYPE, NUM, CONTENT, 
-      RATE, CONFIRM, START
-      )
-    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{identity,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{rate,jdbcType=DOUBLE}, #{confirm,jdbcType=INTEGER}, #{start,jdbcType=LONGVARCHAR}
-      )
+    insert into test_mark (GMT_CREATE, GMT_MODIFIED, START, 
+      IDENTITY, NAME, TYPE, 
+      NUM, CONTENT, RATE, 
+      CONFIRM)
+    values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{start,jdbcType=BIGINT}, 
+      #{identity,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{rate,jdbcType=DOUBLE}, 
+      #{confirm,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="just.yt.model.TestMark" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -158,6 +132,9 @@
       </if>
       <if test="gmtModified != null" >
         GMT_MODIFIED,
+      </if>
+      <if test="start != null" >
+        START,
       </if>
       <if test="identity != null" >
         IDENTITY,
@@ -180,9 +157,6 @@
       <if test="confirm != null" >
         CONFIRM,
       </if>
-      <if test="start != null" >
-        START,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="gmtCreate != null" >
@@ -190,6 +164,9 @@
       </if>
       <if test="gmtModified != null" >
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=BIGINT},
       </if>
       <if test="identity != null" >
         #{identity,jdbcType=VARCHAR},
@@ -212,9 +189,6 @@
       <if test="confirm != null" >
         #{confirm,jdbcType=INTEGER},
       </if>
-      <if test="start != null" >
-        #{start,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="just.yt.model.TestMarkExample" resultType="java.lang.Integer" >
@@ -234,6 +208,9 @@
       </if>
       <if test="record.gmtModified != null" >
         GMT_MODIFIED = #{record.gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.start != null" >
+        START = #{record.start,jdbcType=BIGINT},
       </if>
       <if test="record.identity != null" >
         IDENTITY = #{record.identity,jdbcType=VARCHAR},
@@ -256,27 +233,7 @@
       <if test="record.confirm != null" >
         CONFIRM = #{record.confirm,jdbcType=INTEGER},
       </if>
-      <if test="record.start != null" >
-        START = #{record.start,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update test_mark
-    set ID = #{record.id,jdbcType=BIGINT},
-      GMT_CREATE = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      GMT_MODIFIED = #{record.gmtModified,jdbcType=TIMESTAMP},
-      IDENTITY = #{record.identity,jdbcType=VARCHAR},
-      NAME = #{record.name,jdbcType=VARCHAR},
-      TYPE = #{record.type,jdbcType=VARCHAR},
-      NUM = #{record.num,jdbcType=INTEGER},
-      CONTENT = #{record.content,jdbcType=VARCHAR},
-      RATE = #{record.rate,jdbcType=DOUBLE},
-      CONFIRM = #{record.confirm,jdbcType=INTEGER},
-      START = #{record.start,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +243,7 @@
     set ID = #{record.id,jdbcType=BIGINT},
       GMT_CREATE = #{record.gmtCreate,jdbcType=TIMESTAMP},
       GMT_MODIFIED = #{record.gmtModified,jdbcType=TIMESTAMP},
+      START = #{record.start,jdbcType=BIGINT},
       IDENTITY = #{record.identity,jdbcType=VARCHAR},
       NAME = #{record.name,jdbcType=VARCHAR},
       TYPE = #{record.type,jdbcType=VARCHAR},
@@ -305,6 +263,9 @@
       </if>
       <if test="gmtModified != null" >
         GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null" >
+        START = #{start,jdbcType=BIGINT},
       </if>
       <if test="identity != null" >
         IDENTITY = #{identity,jdbcType=VARCHAR},
@@ -327,30 +288,14 @@
       <if test="confirm != null" >
         CONFIRM = #{confirm,jdbcType=INTEGER},
       </if>
-      <if test="start != null" >
-        START = #{start,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where ID = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="just.yt.model.TestMark" >
-    update test_mark
-    set GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},
-      GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},
-      IDENTITY = #{identity,jdbcType=VARCHAR},
-      NAME = #{name,jdbcType=VARCHAR},
-      TYPE = #{type,jdbcType=VARCHAR},
-      NUM = #{num,jdbcType=INTEGER},
-      CONTENT = #{content,jdbcType=VARCHAR},
-      RATE = #{rate,jdbcType=DOUBLE},
-      CONFIRM = #{confirm,jdbcType=INTEGER},
-      START = #{start,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="just.yt.model.TestMark" >
     update test_mark
     set GMT_CREATE = #{gmtCreate,jdbcType=TIMESTAMP},
       GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},
+      START = #{start,jdbcType=BIGINT},
       IDENTITY = #{identity,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=VARCHAR},

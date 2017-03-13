@@ -8,6 +8,8 @@
     <result column="IDENTITY" property="identity" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="END" property="end" jdbcType="TINYINT" />
+    <result column="BATCH" property="batch" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, GMT_CREATE, GMT_MODIFIED, IDENTITY, NAME, POSITION
+    ID, GMT_CREATE, GMT_MODIFIED, IDENTITY, NAME, POSITION, END, BATCH
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="just.yt.model.ExamineeExample" >
     select
@@ -108,9 +110,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into examinee (GMT_CREATE, GMT_MODIFIED, IDENTITY, 
-      NAME, POSITION)
+      NAME, POSITION, END, 
+      BATCH)
     values (#{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{identity,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{end,jdbcType=TINYINT}, 
+      #{batch,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="just.yt.model.Examinee" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
@@ -133,6 +137,12 @@
       <if test="position != null" >
         POSITION,
       </if>
+      <if test="end != null" >
+        END,
+      </if>
+      <if test="batch != null" >
+        BATCH,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="gmtCreate != null" >
@@ -149,6 +159,12 @@
       </if>
       <if test="position != null" >
         #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="end != null" >
+        #{end,jdbcType=TINYINT},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +195,12 @@
       <if test="record.position != null" >
         POSITION = #{record.position,jdbcType=VARCHAR},
       </if>
+      <if test="record.end != null" >
+        END = #{record.end,jdbcType=TINYINT},
+      </if>
+      <if test="record.batch != null" >
+        BATCH = #{record.batch,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,7 +213,9 @@
       GMT_MODIFIED = #{record.gmtModified,jdbcType=TIMESTAMP},
       IDENTITY = #{record.identity,jdbcType=VARCHAR},
       NAME = #{record.name,jdbcType=VARCHAR},
-      POSITION = #{record.position,jdbcType=VARCHAR}
+      POSITION = #{record.position,jdbcType=VARCHAR},
+      END = #{record.end,jdbcType=TINYINT},
+      BATCH = #{record.batch,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -214,6 +238,12 @@
       <if test="position != null" >
         POSITION = #{position,jdbcType=VARCHAR},
       </if>
+      <if test="end != null" >
+        END = #{end,jdbcType=TINYINT},
+      </if>
+      <if test="batch != null" >
+        BATCH = #{batch,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
@@ -223,7 +253,9 @@
       GMT_MODIFIED = #{gmtModified,jdbcType=TIMESTAMP},
       IDENTITY = #{identity,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
-      POSITION = #{position,jdbcType=VARCHAR}
+      POSITION = #{position,jdbcType=VARCHAR},
+      END = #{end,jdbcType=TINYINT},
+      BATCH = #{batch,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

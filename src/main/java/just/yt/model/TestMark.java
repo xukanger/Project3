@@ -10,6 +10,8 @@ public class TestMark implements Serializable {
 
     private Date gmtModified;
 
+    private Long start;
+
     private String identity;
 
     private String name;
@@ -24,19 +26,7 @@ public class TestMark implements Serializable {
 
     private Integer confirm;
 
-    private Long start;
-
     private static final long serialVersionUID = 1L;
-
-    public TestMark() {
-    }
-
-    public TestMark(Date gmtCreate, Date gmtModified, String identity, String name) {
-        this.gmtCreate = gmtCreate;
-        this.gmtModified = gmtModified;
-        this.identity = identity;
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
@@ -60,6 +50,14 @@ public class TestMark implements Serializable {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public Long getStart() {
+        return start;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
     }
 
     public String getIdentity() {
@@ -118,14 +116,6 @@ public class TestMark implements Serializable {
         this.confirm = confirm;
     }
 
-    public Long getStart() {
-        return start;
-    }
-
-    public void setStart(Long start) {
-        this.start = start;
-    }
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -141,14 +131,14 @@ public class TestMark implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getGmtCreate() == null ? other.getGmtCreate() == null : this.getGmtCreate().equals(other.getGmtCreate()))
             && (this.getGmtModified() == null ? other.getGmtModified() == null : this.getGmtModified().equals(other.getGmtModified()))
+            && (this.getStart() == null ? other.getStart() == null : this.getStart().equals(other.getStart()))
             && (this.getIdentity() == null ? other.getIdentity() == null : this.getIdentity().equals(other.getIdentity()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getNum() == null ? other.getNum() == null : this.getNum().equals(other.getNum()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
             && (this.getRate() == null ? other.getRate() == null : this.getRate().equals(other.getRate()))
-            && (this.getConfirm() == null ? other.getConfirm() == null : this.getConfirm().equals(other.getConfirm()))
-            && (this.getStart() == null ? other.getStart() == null : this.getStart().equals(other.getStart()));
+            && (this.getConfirm() == null ? other.getConfirm() == null : this.getConfirm().equals(other.getConfirm()));
     }
 
     @Override
@@ -158,6 +148,7 @@ public class TestMark implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getGmtCreate() == null) ? 0 : getGmtCreate().hashCode());
         result = prime * result + ((getGmtModified() == null) ? 0 : getGmtModified().hashCode());
+        result = prime * result + ((getStart() == null) ? 0 : getStart().hashCode());
         result = prime * result + ((getIdentity() == null) ? 0 : getIdentity().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
@@ -165,7 +156,6 @@ public class TestMark implements Serializable {
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getRate() == null) ? 0 : getRate().hashCode());
         result = prime * result + ((getConfirm() == null) ? 0 : getConfirm().hashCode());
-        result = prime * result + ((getStart() == null) ? 0 : getStart().hashCode());
         return result;
     }
 
@@ -178,6 +168,7 @@ public class TestMark implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
+        sb.append(", start=").append(start);
         sb.append(", identity=").append(identity);
         sb.append(", name=").append(name);
         sb.append(", type=").append(type);
@@ -185,7 +176,6 @@ public class TestMark implements Serializable {
         sb.append(", content=").append(content);
         sb.append(", rate=").append(rate);
         sb.append(", confirm=").append(confirm);
-        sb.append(", start=").append(start);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

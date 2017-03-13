@@ -14,18 +14,11 @@ public class Examinee implements Serializable {
 
     private String name;
 
-    public Examinee() {
-    }
-
-    public Examinee(Date gmtCreate, Date gmtModified, String identity, String name, String position) {
-        this.gmtCreate = gmtCreate;
-        this.gmtModified = gmtModified;
-        this.identity = identity;
-        this.name = name;
-        this.position = position;
-    }
-
     private String position;
+
+    private Byte end;
+
+    private String batch;
 
     private static final long serialVersionUID = 1L;
 
@@ -77,6 +70,22 @@ public class Examinee implements Serializable {
         this.position = position;
     }
 
+    public Byte getEnd() {
+        return end;
+    }
+
+    public void setEnd(Byte end) {
+        this.end = end;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -94,7 +103,9 @@ public class Examinee implements Serializable {
             && (this.getGmtModified() == null ? other.getGmtModified() == null : this.getGmtModified().equals(other.getGmtModified()))
             && (this.getIdentity() == null ? other.getIdentity() == null : this.getIdentity().equals(other.getIdentity()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getPosition() == null ? other.getPosition() == null : this.getPosition().equals(other.getPosition()));
+            && (this.getPosition() == null ? other.getPosition() == null : this.getPosition().equals(other.getPosition()))
+            && (this.getEnd() == null ? other.getEnd() == null : this.getEnd().equals(other.getEnd()))
+            && (this.getBatch() == null ? other.getBatch() == null : this.getBatch().equals(other.getBatch()));
     }
 
     @Override
@@ -107,6 +118,8 @@ public class Examinee implements Serializable {
         result = prime * result + ((getIdentity() == null) ? 0 : getIdentity().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getPosition() == null) ? 0 : getPosition().hashCode());
+        result = prime * result + ((getEnd() == null) ? 0 : getEnd().hashCode());
+        result = prime * result + ((getBatch() == null) ? 0 : getBatch().hashCode());
         return result;
     }
 
@@ -122,6 +135,8 @@ public class Examinee implements Serializable {
         sb.append(", identity=").append(identity);
         sb.append(", name=").append(name);
         sb.append(", position=").append(position);
+        sb.append(", end=").append(end);
+        sb.append(", batch=").append(batch);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

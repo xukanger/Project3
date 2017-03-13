@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <classPathEntry location="G:\qqdocument\552177156\FileRecv\mysql-connector-java-5.1.38.jar"/>
-    <classPathEntry location="G:\Github\Project3\target\classes\tool\CreateCode.class"/>
+    <classPathEntry location="G:\java2\Project3\target\classes\tool\MysqlPaginationPlugin.class"/>
 
     <context id="test" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
@@ -19,11 +19,12 @@
                         connectionURL="jdbc:mysql://localhost:3306/court?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
                         userId="root" password="admin" />
         <javaModelGenerator targetPackage="just.yt.model"
-                            targetProject="G:\Github\Project3\src\main\java" />
+                            targetProject="G:\java2\Project3\src\main\java" />
         <sqlMapGenerator targetPackage="mapper"
-                         targetProject="G:\Github\Project3\src\main\resources" />
+                         targetProject="G:\java2\Project3\src\main\resources" />
         <javaClientGenerator targetPackage="just.yt.dao"
-          targetProject="G:\Github\Project3\src\main\java" type="XMLMAPPER" />
+          targetProject="G:\java2\Project3\src\main\java" type="XMLMAPPER" />
+
         <table  tableName="bops_user" >
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
@@ -34,6 +35,12 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
         <table tableName="test_mark">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="test_batch">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="test_batcfassafh">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
     </context>

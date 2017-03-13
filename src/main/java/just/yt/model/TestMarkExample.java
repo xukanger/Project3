@@ -305,6 +305,66 @@ public class TestMarkExample {
             return (Criteria) this;
         }
 
+        public Criteria andStartIsNull() {
+            addCriterion("START is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartIsNotNull() {
+            addCriterion("START is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartEqualTo(Long value) {
+            addCriterion("START =", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartNotEqualTo(Long value) {
+            addCriterion("START <>", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartGreaterThan(Long value) {
+            addCriterion("START >", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartGreaterThanOrEqualTo(Long value) {
+            addCriterion("START >=", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLessThan(Long value) {
+            addCriterion("START <", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLessThanOrEqualTo(Long value) {
+            addCriterion("START <=", value, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartIn(List<Long> values) {
+            addCriterion("START in", values, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartNotIn(List<Long> values) {
+            addCriterion("START not in", values, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartBetween(Long value1, Long value2) {
+            addCriterion("START between", value1, value2, "start");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartNotBetween(Long value1, Long value2) {
+            addCriterion("START not between", value1, value2, "start");
+            return (Criteria) this;
+        }
+
         public Criteria andIdentityIsNull() {
             addCriterion("IDENTITY is null");
             return (Criteria) this;
