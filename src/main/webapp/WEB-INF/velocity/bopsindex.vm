@@ -37,6 +37,7 @@
                         <li>
                             <a href="/bops/bopsUser/add">添加管理员</a>
                         </li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
                 <li class="dropdown">

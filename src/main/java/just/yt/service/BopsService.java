@@ -367,5 +367,8 @@ public class BopsService {
         testMarkService.deleteAll();
         return  DefaultResult.successResult("删除成功");
     }
-
+    //查询所有考生信息
+    public List<Examinee> listExaminee(){
+        return examineeService.getAll();
+    }
 }

@@ -1,6 +1,7 @@
 package just.yt.controller;
 
 import just.yt.model.BopsUser;
+import just.yt.model.Examinee;
 import just.yt.service.BopsService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -85,11 +87,21 @@ import java.util.Objects;
         return  mav;
     }
 
-    @RequestMapping(value ="/bopsUser/save",method= RequestMethod.GET)
-    public ModelAndView saveUser(@RequestParam  String account,@RequestParam String name, @RequestParam String password,HttpSession session) {
+    @RequestMapping(value ="/bopsUser/list",method= RequestMethod.POST)
+    public ModelAndView list(HttpSession session) {
         ModelAndView mav = new ModelAndView();
         if(Objects.isNull(session.getAttribute("user"))) {
             mav.setViewName("redirect:/bops/");
+        }
+        List<Examinee> list = bopsService.listExaminee();
+        return  mav;
+    }
+
+
+    @RequestMapping(value ="/bopsUser/save",method= RequestMethod.POST)
+    public @ResponseBody DefaultResult saveUser(@RequestParam  String account,@RequestParam String name, @RequestParam String password,HttpSession session) {
+        if(Objects.isNull(session.getAttribute("user"))) {
+            return  DefaultResult.failResult("请先登录！！");
         }
         BopsUser bopsUser =new BopsUser();
         bopsUser.setAccount(account);
@@ -98,14 +110,8 @@ import java.util.Objects;
         bopsUser.setStatus(0);
         bopsUser.setGmtCreate(new Date());
         bopsUser.setGmtModified(new Date());
-
-        if (bopsUser == null){
-            mav.setViewName("addbopsuser");
-            return mav;
-        }
         bopsService.save(bopsUser);
-        mav.setViewName("redirect:/bops/index");
-        return  mav;
+        return  DefaultResult.successResult();
     }
 
     @RequestMapping(value ="/bopsUser/importoutput",method= RequestMethod.GET)
@@ -117,7 +123,8 @@ import java.util.Objects;
 
     @RequestMapping(value ="/bopsUser/excelUpload",method= RequestMethod.POST)
     public @ResponseBody  DefaultResult excelUpload(Map<String, Object> model, @RequestParam  MultipartFile file, HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user"))) {
+        BopsUser user =(BopsUser) session.getAttribute("user");
+        if(Objects.isNull(user)) {
             return DefaultResult.failResult("用户未登录");
         }
         System.out.println(file.getOriginalFilename());
@@ -131,7 +138,8 @@ import java.util.Objects;
 
     @RequestMapping(value ="/bopsUser/outputExamineeA",method= RequestMethod.POST)
     public byte[] outputExamineeA(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        if(Objects.isNull(session.getAttribute("user"))) {
+        BopsUser user =(BopsUser) session.getAttribute("user");
+        if(Objects.isNull(user)) {
             return null;
         }
         response.setContentType("application/vnd.ms-excel");
