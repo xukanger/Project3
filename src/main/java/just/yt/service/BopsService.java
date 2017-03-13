@@ -100,7 +100,7 @@ public class BopsService {
         }
         ExamineeExample examineeExample = new ExamineeExample();
         examineeExample.createCriteria().andIdentityEqualTo(identity);
-        return  examineeService.selectByExamlpe(examineeExample);
+        return  examineeService.selectByExample(examineeExample);
     }
 
     /**
@@ -112,7 +112,7 @@ public class BopsService {
         }
         TestMarkExample testMarkExample = new TestMarkExample();
         testMarkExample.createCriteria().andIdentityEqualTo(identity);
-        return  testMarkService.selectByExamlpe(testMarkExample);
+        return  testMarkService.selectByExample(testMarkExample);
     }
 
     /**
@@ -134,14 +134,13 @@ public class BopsService {
             String name = row.get("姓名");
             String identity = row.get("身份证号码");
             String position = row.get("报考职位");
+            String batch = row.get("考试批次");
             if (StringUtils.isEmpty(identity)||StringUtils.isEmpty(name)){
 //                return  DefaultResult.failResult("有记录的身份证或姓名列为空！");
                 continue;
             }
-            Examinee e = new Examinee(now,now,identity,name,position);
+            Examinee e = new Examinee(now,now,identity,name,position,batch);
             examinees.add(e);
-            TestMark testMark = new TestMark(now,now,identity,name);
-            testMark.setType("A");
         }
         for (Examinee e: examinees) {
             examineeService.insert(e);
@@ -168,7 +167,7 @@ public class BopsService {
         List<TestMark> Bmarks = new ArrayList<TestMark>();
         if (type.equals("A")) {
             testMarkExample.createCriteria().andTypeEqualTo(type);
-            marks = testMarkService.selectByExamlpe(testMarkExample);
+            marks = testMarkService.selectByExample(testMarkExample);
             Amarks= marks;
         }else {
             isB = true;
@@ -238,10 +237,10 @@ public class BopsService {
     public  DefaultResult outputContent(OutputStream os) throws Exception {
         TestMarkExample testMarkExamplea = new TestMarkExample();
         testMarkExamplea.createCriteria().andTypeEqualTo("A");
-        List<TestMark> amarks = testMarkService.selectByExamlpe(testMarkExamplea);
+        List<TestMark> amarks = testMarkService.selectByExample(testMarkExamplea);
         TestMarkExample testMarkExampleb = new TestMarkExample();
         testMarkExampleb.createCriteria().andTypeEqualTo("B");
-        List<TestMark> bmarks = testMarkService.selectByExamlpe(testMarkExampleb);
+        List<TestMark> bmarks = testMarkService.selectByExample(testMarkExampleb);
         Map<String,String> acontents = new HashMap<String, String>();
         Map<String,String> bcontents = new HashMap<String, String>();
         for (TestMark mark:amarks) {

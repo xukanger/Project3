@@ -55,7 +55,7 @@ public class TestMarkService {
         return testMarkMapper.selectByPrimaryKey(id);
     }
 
-    public List<TestMark> selectByExamlpe(TestMarkExample testMarkExample){
+    public List<TestMark> selectByExample(TestMarkExample testMarkExample){
         return testMarkMapper.selectByExample(testMarkExample);
     }
 
