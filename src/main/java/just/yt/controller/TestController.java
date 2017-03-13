@@ -49,7 +49,7 @@ public class TestController {
     public  ModelAndView firstLogin(@RequestParam String id,@RequestParam String username, HttpSession session) {
         ExamineeExample examineeExample = new ExamineeExample();
         examineeExample.or().andIdentityEqualTo(id).andNameEqualTo(username);
-        List<Examinee> list=examineeService.selectByExamlpe(examineeExample);
+        List<Examinee> list=examineeService.selectByExample(examineeExample);
 
         ModelAndView mav = new ModelAndView();
 
