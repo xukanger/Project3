@@ -3,6 +3,7 @@ package just.yt.service;
 import just.yt.dao.BopsUserMapper;
 import just.yt.model.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -128,28 +129,33 @@ public class BopsService {
             return  DefaultResult.failResult("导入失败");
         }
         List<Map<String, String>> excel = initData.get(0);
+        List<Examinee> old = listExaminee();
+        if (old == null){
+            old = new ArrayList<Examinee>();
+        }
 
         for (Map<String, String> row:excel) {
             String name = row.get("姓名");
             String identity = row.get("身份证号码");
             String position = row.get("报考职位");
-            String batch = row.get("考试批次");
+//            String batch = row.get("考试批次");
             if (StringUtils.isEmpty(identity)||StringUtils.isEmpty(name)){
 //                return  DefaultResult.failResult("有记录的身份证或姓名列为空！");
                 continue;
             }
-            Examinee e = new Examinee(now,now,identity,name,position,batch);
+            Examinee e = new Examinee(now,now,identity,name,position,"");
             examinees.add(e);
         }
         for (Examinee e: examinees) {
-            examineeService.insert(e);
+            if (old.contains(e)){
+                examineeService.update(e);
+            }else {
+                examineeService.insert(e);
+            }
         }
         return  DefaultResult.successResult("导入成功");
     }
 
-    /**
-     * 导入考生成绩
-     * */
 
     /**
      * 导出考生成绩
@@ -369,4 +375,20 @@ public class BopsService {
     public List<Examinee> listExaminee(){
         return examineeService.getAll();
     }
+    public DefaultResult resetEnd(String  identity){
+        if (StringUtils.isEmpty(identity)) return  DefaultResult.failResult("");
+        List<Examinee>  es= listExaminee(identity);
+        if (es == null || es.isEmpty()){
+            return DefaultResult.failResult("id非法");
+        }
+        Examinee ex = es.get(0);
+        Byte b = 0;
+        ex.setEnd(b);
+        Examinee e = examineeService.update(ex);
+        if (e != null){
+            return  DefaultResult.successResult(e);
+        }
+        return  DefaultResult.failResult();
+    }
+
 }

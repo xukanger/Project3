@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="/style/css/lib/bootstrap-3.0.3/css/bootstrap.min.css"/>
+    <script src="/style/js/build/lib/jquery/jquery-1.11.0.min.js"></script>
+    <script src="/style/css/lib/bootstrap-3.0.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style/css/src/site/bops/bops.css"/>
+    <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
+    <script src="/style/js/build/app/notify/notify.js"></script>
+    <script src="/style/js/build/app/uploader/fileuploader.js"></script>
+    <title>清空考生记录</title>
+</head>
+<body>
+    #include("navbar.vm")
+<h2>清空考生记录</h2>
+<form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
+    <input class="btn btn-danger" type="submit" value="单击此处清空考生记录">
+</form>
+</body>
+</html>
