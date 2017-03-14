@@ -2,10 +2,9 @@ package just.yt.service;
 
 import just.yt.dao.BopsUserMapper;
 import just.yt.model.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.impl.Log4JLogger;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Log4jConfigurer;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tool.DefaultResult;
 import tool.ExcelUtil;
