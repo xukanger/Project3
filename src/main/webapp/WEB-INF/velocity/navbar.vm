@@ -32,7 +32,7 @@
                         <a href="/bops/bopsUser/listAll">查询所有考生信息</a>
                     </li>
                     <li>
-                        <a href="/bops/bopsUser/delAll">清空所有考生信息</a>
+                        <a href="/bops/bopsUser/deleteAll">清空所有考生信息</a>
                     </li>
                     <li class="divider"></li>
                 </ul>

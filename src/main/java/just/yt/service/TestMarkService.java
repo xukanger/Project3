@@ -76,7 +76,8 @@ public class TestMarkService {
                 andTypeEqualTo(type);
         return testMarkMapper.selectByExample(testMarkExample);
     }
-
-
+    public boolean deleteByExample(TestMarkExample example){
+       return  testMarkMapper.deleteByExample(example)>0;
+    }
 
 }

@@ -17,57 +17,11 @@
         <title>BOPS</title>
     </head>
     <body>
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">BOPS</a>
-          </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理员<b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/bops/bopsUser/add">添加管理员</a>
-                        </li>
-                        <li class="divider"></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">考生信息<b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/bops/bopsUser/importoutput">导入导出考生信息</a>
-                        </li>
+        #parse("navbar.vm")
 
-                        <li class="divider"></li>
-                    </ul>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">$!{user.name}<b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/bops/login/login">退出</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-          </div>
-        </div>
-
-        <h2>清空考生记录</h2>
+#*        <h2>清空考生记录</h2>
         <form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
             <input class="btn btn-danger" type="submit" value="单击此处清空考生记录">
-        </form>
+        </form>*#
     </body>
 </html>

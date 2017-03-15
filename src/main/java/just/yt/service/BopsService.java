@@ -371,20 +371,25 @@ public class BopsService {
     public List<Examinee> listExaminee(){
         return examineeService.getAll();
     }
-    public DefaultResult resetEnd(String  identity){
-        if (StringUtils.isEmpty(identity)) return  DefaultResult.failResult("");
-        List<Examinee>  es= listExaminee(identity);
-        if (es == null || es.isEmpty()){
-            return DefaultResult.failResult("id非法");
-        }
-        Examinee ex = es.get(0);
-        Byte b = 0;
+
+
+    public DefaultResult resetEnd(Long id){
+        if (id == null || id<0) return  DefaultResult.failResult("参数非法");
+        Examinee ex = examineeService.getById(id);
+        if (ex == null) return  DefaultResult.failResult("无此考生");
+        Byte b = 1;
         ex.setEnd(b);
         Examinee e = examineeService.update(ex);
-        if (e != null){
-            return  DefaultResult.successResult(e);
-        }
-        return  DefaultResult.failResult();
+        return DefaultResult.successResult();
     }
 
+    public DefaultResult delMark(String identity){
+        TestMarkExample example = new TestMarkExample();
+        example.createCriteria().andIdentityEqualTo(identity);
+        if (testMarkService.deleteByExample(example)) {
+            return DefaultResult.successResult();
+        }else {
+            return  DefaultResult.failResult();
+        }
+    }
 }
