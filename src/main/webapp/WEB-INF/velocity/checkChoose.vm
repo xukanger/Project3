@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>选择考题</title>
+    <script language="JavaScript" src="/style/js/jquery.min.js"></script>
+    <style type="text/css">
+        #show_box{
+            font-size: 36px;
+        }
+        .main{
+            margin:140px auto;
+            text-align: center;
+        }
+        .main h1{
+            margin:60px auto;
+        }
+        .main input, select{
+            font-size: 24px;
+            margin:30px;
+            padding:10px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="show_box">
+    <span>身份证：</span><span>$!{examinee.identity}</span><br/>
+    <span>姓名：</span><span>$!{examinee.name}</span>
+</div>
+<div class="main">
+    <h1>你选择的题号是<big>$!{quesNum}</big></h1>
+    <input type="submit" id="return" value="返回">
+    <input type="submit" id="submit_button" value="进入考试">
+</div>
+
+<script type="text/javascript">
+    var submit = false;
+    $(function(){
+        $('#submit_button').click(function(event){
+            event.preventDefault();
+            if(!submit){
+                submit=true;
+                location.href = "/test/finishChoose"
+            }
+
+        });
+        $("#return").click(function (event) {
+            event.preventDefault();
+            location.href = "/test/choose"
+        })
+    });
+</script>
+</body>
+</html>

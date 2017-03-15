@@ -5,7 +5,7 @@
         <title>测试等待</title>
         <script language="JavaScript" src="/style/js/jquery.min.js"></script>
         <style type="text/css">
-            #currentTime{
+            #show_box{
                 font-size: 36px;
             }
             .main{
@@ -30,28 +30,23 @@
         </style>
     </head>
     <body>
-        <div id="currentTime"></div>
+        <div id="show_box">
+            <span>身份证：</span><span>$!{examinee.identity}</span><br/>
+            <span>姓名：</span><span>$!{examinee.name}</span>
+        </div>
         <div class="main">
-            <h1>请等待测试录音播放，确认录音清晰且无差错点击考试按钮进入正式考试</h1>
+            <h1>请选择输入法在录入框中测试录入，如发现问题请举手示意</h1>
             <div>
-                <span>录音中播放内容</span>
-                <textarea rows="10" cols="50" readonly="readonly">录音内容</textarea>
+                <textarea rows="10" cols="50"  placeholder="测试录入"></textarea>
             </div>
             <div>
-                <form action="/test/confirm" method="get">
+                <form action="/test/choose" method="get">
                     <input type="submit" value="进入考试">
                 </form>
-                <span>请等待广播提示后点击，广播播放前请勿点击</span>
+                <span>请等待监考老师提示后点击，请勿提前点击</span>
             </div>
 
         </div>
 
-        <script language="javascript">
-        $(function(){
-            setInterval(function(){
-                $("#currentTime").text(new Date().toLocaleString());
-            },1000);
-        });
-        </script>
     </body>
 </html>

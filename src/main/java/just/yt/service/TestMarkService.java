@@ -1,6 +1,7 @@
 package just.yt.service;
 
 import just.yt.dao.TestMarkMapper;
+import just.yt.model.Examinee;
 import just.yt.model.TestMark;
 import just.yt.model.TestMarkExample;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,24 @@ public class TestMarkService {
     public List<TestMark> selectByExample(TestMarkExample testMarkExample){
         return testMarkMapper.selectByExample(testMarkExample);
     }
+
+    public List<TestMark> getByIdAndName(Examinee examinee){
+        TestMarkExample testMarkExample = new TestMarkExample();
+        testMarkExample.or().
+                andIdentityEqualTo(examinee.getIdentity()).
+                andNameEqualTo(examinee.getName());
+        return testMarkMapper.selectByExample(testMarkExample);
+    }
+
+    public List<TestMark> getByIdAndNameAndType(Examinee examinee,String type){
+        TestMarkExample testMarkExample = new TestMarkExample();
+        testMarkExample.or().
+                andIdentityEqualTo(examinee.getIdentity()).
+                andNameEqualTo(examinee.getName()).
+                andTypeEqualTo(type);
+        return testMarkMapper.selectByExample(testMarkExample);
+    }
+
+
 
 }

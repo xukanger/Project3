@@ -142,6 +142,10 @@ public class Examinee implements Serializable {
         return sb.toString();
     }
 
+    public Examinee(){
+
+    }
+
     public Examinee(Date gmtCreate, Date gmtModified, String identity, String name, String position, String batch) {
         this.gmtCreate = gmtCreate;
         this.gmtModified = gmtModified;

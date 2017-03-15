@@ -40,49 +40,16 @@
     </style>
 </head>
 <body>
-<div id="currentTime"></div>
 <div class="main">
     <h1>确认考试答案</h1>
-    <div id="timer_container">
-        <h2>距离考试结束还有</h2><span id="restMin"></span><span>分：</span><span id="restSec"></span><span>秒</span>
-    </div>
 
-    <textarea name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
-    <form action="/test/checkAnswer" method="post">
+
+    <textarea name="answer" rows="16" cols="120" disabled="true" >$!{answer}</textarea><br/>
+    <form  action="/test/doCheckAnswer" method="post">
         <input type="submit" id="submit_button" value="确认提交">
-    </form>
-    <form action="/test/modify" method="post">
-        <input type="submit" id="submit_button" value="修改">
     </form>
 </div>
 
-<script language="javascript">
-    $(function(){
-        setInterval(function(){
-            $("#currentTime").text(new Date().toLocaleString());
-        },1000);
 
-    });
-    $(function(){
-        setInterval(function(){
-            $("#currentTime").text(new Date().toLocaleString());
-        },1000);
-        var startTime=$!{startTime};
-        var date=new Date();
-        var current=date.getTime();
-        var usedTime=current-startTime;
-        var sec=60*13-parseInt(usedTime/1000);
-
-        function countDown(){
-            sec--;
-            if(sec<0)return;
-            $("#restMin").text(parseInt(sec/60));
-            $("#restSec").text(sec-parseInt(sec/60)*60);
-        }
-        setInterval(countDown,1000);
-
-
-    });
-</script>
 </body>
 </html>

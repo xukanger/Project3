@@ -5,7 +5,7 @@
         <title>选择考题</title>
         <script language="JavaScript" src="/style/js/jquery.min.js"></script>
         <style type="text/css">
-            #currentTime{
+            #show_box{
                 font-size: 36px;
             }
             .main{
@@ -29,23 +29,54 @@
         </style>
     </head>
     <body>
-        <div id="currentTime"></div>
+        <div id="show_box">
+            <span>身份证：</span><span>$!{examinee.identity}</span><br/>
+            <span>姓名：</span><span>$!{examinee.name}</span>
+        </div>
         <div class="main">
             <h1>请选择本场考试的题号</h1>
             <form action="/test/doChoose" method="post">
-                <select name="quesNum">
-                    <option value ="1">1</option>
-                    <option value ="2">2</option>
+                <select name="quesNum" id="quesNum">
+                    #foreach($foo in [1..50])
+                        <option value ="$foo">$foo</option>
+                    #end
                 </select>
                 <input type="submit" id="submit_button" value="进入考试">
             </form>
         </div>
 
-        <script language="javascript">
+        <script type="text/javascript">
+            var hasSubmit = false;
         $(function(){
-            setInterval(function(){
-                $("#currentTime").text(new Date().toLocaleString());
-            },1000);
+
+                $('#submit_button').click(function(event){
+                    event.preventDefault();
+                    if(!hasSubmit) {
+                        hasSubmit = true;
+                        $.ajax({
+                            url:"/test/doChoose",
+                            type: "POST",
+                            data: {quesNum:$("#quesNum").val(), type:"A"},
+                            dataType: "json",
+                            success: function(data){
+                                hasSubmit = false;
+                                if(!data.fail){
+                                    location.href = data.message;
+                                }
+                                else{
+                                    alert(data.message)
+                                }
+                            },
+                            error:function () {
+                                alert("网络连接异常");
+                            }
+                        });
+                    }
+
+
+                });
+
+
         });
         </script>
     </body>

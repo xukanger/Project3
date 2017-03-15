@@ -63,5 +63,11 @@ public class ExamineeService {
         return examineeMapper.selectByExample(examineeExample);
     }
 
+    public List<Examinee> selectByIdAndName(String identity,String name){
+        ExamineeExample examineeExample = new ExamineeExample();
+        examineeExample.or().andIdentityEqualTo(identity).andNameEqualTo(name);
+        return examineeMapper.selectByExample(examineeExample);
+    }
+
 
 }

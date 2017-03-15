@@ -1,7 +1,6 @@
 package just.yt.controller;
 
 import just.yt.model.Examinee;
-import just.yt.model.ExamineeExample;
 import just.yt.model.TestMark;
 import just.yt.service.ExamineeService;
 import just.yt.service.TestMarkService;
@@ -9,17 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import tool.DefaultResult;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
-/**
- * Created by yt on 2017/3/3.
- */
+
 @Controller
 @RequestMapping("/test")
 public class TestController {
@@ -29,6 +27,24 @@ public class TestController {
 
     @Resource
     TestMarkService testMarkService;
+
+    public final static String LOGIN_URL =  "/test/login";
+
+    public final static String TEST_URL = "/test/test";
+
+    public final static String FINISH_URL = "/test/finish";
+
+    public final static String NOREAPEAT_URL = "/test/noRepeat";
+
+    public final static String WAIT_URL = "/test/wait";
+
+    public final static String CHOOSE_URL = "/test/choose";
+
+    public final static String CHECK_CHOOSE_URL = "/test/checkChoose";
+
+    public final static String REDIRCT = "redirect:";
+
+    public final static long TOTAL_SEC = 13*60;
 
 
     /*
@@ -46,67 +62,147 @@ public class TestController {
      *检测账号
      */
     @RequestMapping(value ="/doLogin",method= RequestMethod.POST)
-    public  ModelAndView firstLogin(@RequestParam String id,@RequestParam String username, HttpSession session) {
-        ExamineeExample examineeExample = new ExamineeExample();
-        examineeExample.or().andIdentityEqualTo(id).andNameEqualTo(username);
-        List<Examinee> list=examineeService.selectByExamlpe(examineeExample);
-
-        ModelAndView mav = new ModelAndView();
-
-        if(list.size()==0){
-            mav.setViewName("redirect:/test/");
+    public  @ResponseBody
+    DefaultResult firstLogin(@RequestParam String id,
+                             @RequestParam String username, HttpSession session) {
+        List<Examinee> list = examineeService.selectByIdAndName(id,username);
+        DefaultResult defaultResult = DefaultResult.result(true,WAIT_URL,null);
+        if(list.isEmpty()){
+            defaultResult = DefaultResult.result(false,
+                    "请核对输入内容，如输入内容准确无误仍无法登陆，请举手示意",null);
         }else{
+            Examinee examinee = list.get(0);
             session.setAttribute("user",list.get(0));
-            mav.setViewName("wait");
+            if(isTestEnded(examinee, session)){
+                session.setAttribute("user",null);
+                return DefaultResult.result(true,FINISH_URL,null);
+            }
+
+            if(isTesting(examinee, session)){
+                defaultResult = DefaultResult.result(true,TEST_URL,null);
+            }
         }
-
-        return mav;
+        return defaultResult;
     }
 
     /*
-     *确认广播无误
+     *等待
      */
-    @RequestMapping(value ="/confirm",method= RequestMethod.GET)
-    public  String confirmRecord(HttpSession session) {
-            return "choose";
+    @RequestMapping(value ="/wait",method= RequestMethod.GET)
+    public ModelAndView waitTest(HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("examinee",session.getAttribute("user"));
+        modelAndView.setViewName("wait");
+        return modelAndView;
+    }
+
+    /*
+     *选择
+     */
+    @RequestMapping(value ="/choose",method= RequestMethod.GET)
+    public ModelAndView choose(HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("examinee",session.getAttribute("user"));
+        modelAndView.setViewName("choose");
+        return modelAndView;
     }
 
 
     /*
-     *选择题号
+     *做出选择
      */
     @RequestMapping(value ="/doChoose",method= RequestMethod.POST)
-    public  ModelAndView choose(HttpSession session,@RequestParam Integer quesNum) {
+    public  @ResponseBody DefaultResult doChoose(HttpSession session,
+                                @RequestParam String type,
+                                @RequestParam Integer quesNum) {
+        DefaultResult defaultResult = DefaultResult.result(true,CHECK_CHOOSE_URL,null);
+        if(!checkType(type)){
+            defaultResult = DefaultResult.result(false,"参数错误",null);
+        }
+        Examinee examinee = (Examinee) session.getAttribute("user");
+        if(isTestEnded(examinee, session)){
+            defaultResult = DefaultResult.result(true,FINISH_URL,null);
+        }else if(isTesting(examinee, session)){
+            defaultResult = DefaultResult.result(true,TEST_URL,null);
+        }
+        else{
+            session.setAttribute("quesNum",quesNum);
+            session.setAttribute("type",type);
+        }
+        return defaultResult;
+    }
+
+    @RequestMapping(value ="/checkChoose",method= RequestMethod.GET)
+    public ModelAndView checkChoosePage(HttpSession session){
         ModelAndView modelAndView = new ModelAndView();
-        Boolean isTesting= (Boolean) session.getAttribute("isTesting");
-        if(isTesting==null||!isTesting){
+        Integer quesNum = (Integer) session.getAttribute("quesNum");
+        String type = (String) session.getAttribute("type");
+        Examinee examinee = (Examinee) session.getAttribute("user");
+        if(quesNum == null || type == null){
+            modelAndView.setViewName(REDIRCT+CHOOSE_URL);
+        }
+        modelAndView.addObject("examinee",examinee);
+        modelAndView.addObject("quesNum",quesNum);
+        modelAndView.addObject("type",type);
+        modelAndView.setViewName("checkChoose");
+        return modelAndView;
+    }
+
+
+    /*
+     *检查选择
+     */
+    @RequestMapping(value ="/finishChoose",method = RequestMethod.GET)
+    public ModelAndView checkChoose(HttpSession session){
+        ModelAndView modelAndView = new ModelAndView();
+        Integer quesNum = (Integer) session.getAttribute("quesNum");
+        String type = (String) session.getAttribute("type");
+        Examinee examinee = (Examinee) session.getAttribute("user");
+        if(quesNum == null || type == null){
+            modelAndView.setViewName(REDIRCT+CHOOSE_URL);
+        }else if(isTesting(examinee, session)){
+            modelAndView.setViewName(REDIRCT+TEST_URL);
+        }else if(isTestEnded(examinee, session)) {
+            modelAndView.setViewName(REDIRCT+FINISH_URL);
+        }else{
             TestMark testMark = new TestMark();
-            Examinee examinee = (Examinee) session.getAttribute("user");
             testMark.setIdentity(examinee.getIdentity());
             testMark.setName(examinee.getName());
-            testMark.setNum(quesNum);
+            testMark.setType((String) session.getAttribute("type"));
+            testMark.setNum((Integer) session.getAttribute("quesNum"));
             testMark.setStart(new Date().getTime());
             testMarkService.insert(testMark);
             session.setAttribute("testMark",testMark);
-            session.setAttribute("isTesting",true);
+            modelAndView.setViewName(REDIRCT+TEST_URL);
         }
-        modelAndView.setViewName("redirect:/test/test");
+
         return modelAndView;
     }
 
 
     /*
     * 考试页面
+    *
     * */
     @RequestMapping(value ="/test",method= RequestMethod.GET)
     public  ModelAndView test(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
-        TestMark testMark = (TestMark) session.getAttribute("testMark");
-        if(!Objects.isNull(testMark.getConfirm())&&testMark.getConfirm()==1){
-            modelAndView.setViewName("noRepeat");
+        TestMark testMark = getTestMark(session,"A");
+
+        Examinee examinee = (Examinee) session.getAttribute("user");
+        if(isTestEnded(examinee, session)){
+            modelAndView.setViewName(REDIRCT+NOREAPEAT_URL);
             return modelAndView;
         }
-        modelAndView.addObject("startTime",testMark.getStart());
+
+        long usedSec = getUsedSec(testMark.getStart());
+        long restSec = 0;
+        if(TOTAL_SEC>usedSec){
+            restSec = TOTAL_SEC - usedSec;
+        }
+
+        modelAndView.addObject("restSec",restSec);
+        modelAndView.addObject("examinee",examinee);
         modelAndView.addObject("answer",testMark.getContent());
         modelAndView.setViewName("examination");
         return modelAndView;
@@ -115,42 +211,37 @@ public class TestController {
     /*
      *考试提交
      */
-    @RequestMapping(value ="/submit",method= RequestMethod.POST)
-    public  ModelAndView submitAnswer(HttpSession session,@RequestParam String answer) {
+    @RequestMapping(value ="/submitAnswer",method= RequestMethod.POST)
+    public  @ResponseBody DefaultResult submitAnswer(HttpSession session,@RequestParam String answer) {
         ModelAndView mav = new ModelAndView();
-        TestMark testMark = (TestMark) session.getAttribute("testMark");
-        if(!Objects.isNull(testMark.getConfirm())&&testMark.getConfirm()==1){
-            mav.setViewName("redirect:/test/noRepeat");
-            return mav;
+        TestMark testMark = getTestMark(session,"A");
+        Examinee examinee = (Examinee) session.getAttribute("user");
+        if(isTestEnded(examinee, session)){
+            return DefaultResult.result(true,NOREAPEAT_URL,null);
         }
         testMark.setContent(answer);
         testMarkService.update(testMark);
         mav.addObject("answer",answer);
-
-        mav.addObject("startTime",((TestMark) session.getAttribute("testMark")).getStart());
-        mav.setViewName("checkAnswer");
-
-        return mav;
+        examinee.setEnd((byte) 1);
+        examineeService.update(examinee);
+        return DefaultResult.result(true,"/test/checkAnswer",null);
     }
 
-    /*
-     *修改答案
-     *
-     */
-    @RequestMapping(value ="/modify",method= RequestMethod.POST)
-    public  ModelAndView modify(HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:/test/test");
-        return mav;
+    @RequestMapping(value ="/checkAnswer",method = RequestMethod.GET)
+    public  ModelAndView checkAns(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        TestMark testMark = getTestMark(session,"A");
+        modelAndView.addObject("answer",testMark.getContent());
+        modelAndView.setViewName("checkAnswer");
+        return modelAndView;
     }
 
-
-    @RequestMapping(value ="/checkAnswer",method= RequestMethod.POST)
+    @RequestMapping(value ="/doCheckAnswer",method= RequestMethod.POST)
     public  String confirmAnswer(HttpSession session) {
-            TestMark testMark =(TestMark) session.getAttribute("testMark");
+            TestMark testMark =getTestMark(session,"A");
             testMark.setConfirm(1);
             testMarkService.update(testMark);
-            return "redirect:/test/finish";
+            return REDIRCT+FINISH_URL;
     }
 
     @RequestMapping(value ="/finish",method= RequestMethod.GET)
@@ -162,6 +253,49 @@ public class TestController {
     public  String noRepeat(HttpSession session) {
         return "noRepeat";
     }
+
+
+    //返回最新的testMark记录，如果不存在返回null
+    private TestMark getTestMark(HttpSession session,String type){
+        TestMark testMark = (TestMark) session.getAttribute("testMark");
+        if(testMark!=null&&testMark.getType().equals(type))
+            return testMark;
+        else {
+            testMark = null;
+        }
+        List<TestMark> testMarkList =  testMarkService.getByIdAndNameAndType
+                ((Examinee) session.getAttribute("user"),type);
+        if(!testMarkList.isEmpty()){
+            testMark = testMarkList.get(0);
+        }
+        return testMark;
+    }
+
+    private boolean isTestEnded(Examinee examinee, HttpSession session) {
+        TestMark testtMark = getTestMark(session, "A");
+        if(testtMark!=null && getUsedSec(testtMark.getStart()) > TOTAL_SEC)
+            return true;
+        return examinee.getEnd() == 1;
+    }
+
+    private boolean isTesting(Examinee examinee, HttpSession session){
+        TestMark testMark = getTestMark(session,"A");
+        return testMark!=null;
+    }
+
+    private boolean checkType(String type){
+        if(type == null)
+            return false;
+        return type.equals("A") || type.equals("B");
+    }
+
+    private long getUsedSec(long startTime){
+        long usedSec =(new Date().getTime() - startTime)/1000;
+        return usedSec;
+    }
+
+
+
 
 
 }

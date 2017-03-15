@@ -28,7 +28,7 @@
         #submit_button{
             margin:60px auto;
             font-size: 36px;
-            width:120px;
+            width:180px;
             length:30px;
         }
 
@@ -37,32 +37,22 @@
     </style>
 </head>
 <body>
-<div id="currentTime"></div>
 <div class="main">
     <div id="timer_container">
         <h2>距离考试结束还有</h2><span id="restMin"></span><span>分：</span><span id="restSec"></span><span>秒</span>
     </div>
-    <form action="/test/submit" method="post">
-        <textarea name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
-        <input type="submit" id="submit_button" value="提交" disabled="disabled">
-    </form>
+    <textarea id="answer" name="answer" rows="16" cols="120">$!{answer}</textarea><br/>
+    <input type="submit" id="submit_button" value="提交" disabled="disabled">
 </div>
 
 <script language="javascript">
     $(function(){
-        setInterval(function(){
-            $("#currentTime").text(new Date().toLocaleString());
-        },1000);
-        var startTime=$!{startTime};
-        var date=new Date();
-        var current=date.getTime();
-        var usedTime=current-startTime;
-        var sec=60*13-parseInt(usedTime/1000);
+
+        var sec=$!{restSec};
 
         function countDown(){
             sec--;
             if(sec<0){
-
                 return;
             }
             $("#restMin").text(parseInt(sec/60));
@@ -73,8 +63,50 @@
 
         setTimeout(function () {
             $("#submit_button").removeAttr("disabled");
-        },1000*60*10)
+        },60*3*1000-sec)
 
+        setTimeout(function () {
+            $('#submit_button').click();
+        },sec*1000)
+
+        $('#submit_button').click(function(event){
+
+            event.preventDefault();
+            $("#submit_button").attr("disabled",true);
+
+            setTimeout(submit,1000*parseInt(Math.random()*5))
+
+            var rest = 5;
+
+            setInterval(function () {
+                rest--;
+                if(rest<0)rest = 0;
+                $("#submit_button").val(rest+"秒后提交")
+            },1000)
+
+            function submit() {
+                $.ajax({
+                    url:"/test/submitAnswer",
+                    type: "POST",
+                    data: {answer:$("#answer").val()},
+                    dataType: "json",
+                    success: function(data){
+                        console.log(data)
+                        if(!data.fail){
+                            location.href = data.message;
+                        }
+                        else{
+                            alert(data.message)
+                        }
+                    },
+                    error:function () {
+                        alert("网络连接异常");
+                    }
+                });
+            }
+
+
+        });
 
     });
 </script>
