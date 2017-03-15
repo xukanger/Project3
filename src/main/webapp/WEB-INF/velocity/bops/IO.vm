@@ -16,7 +16,7 @@
     <script src="/style/js/build/app/notify/notify.js"></script>
     <title>导入导出考生信息</title>
 </head>
-    #parse("navbar.vm")
+    #parse("bops/navbar.vm")
 <h2>导入考生信息</h2>
     <form method="POST" action="/bops/bopsUser/excelUpload" enctype="multipart/form-data">
           上传文件:  <input  class="projectfile" type="file" name="file" style="margin:10px 0">

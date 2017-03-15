@@ -19,8 +19,8 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/retest")
+public class RetestController {
 
     @Resource
     ExamineeService examineeService;
@@ -53,7 +53,7 @@ public class TestController {
      */
     @RequestMapping(value ="/login",method= RequestMethod.GET)
     public  String index() {
-        return "test/login";
+        return "/WEB-INF/velocity/test/login.vm";
     }
 
 
@@ -92,7 +92,7 @@ public class TestController {
     public ModelAndView waitTest(HttpSession session){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("examinee",session.getAttribute("user"));
-        modelAndView.setViewName("test/wait");
+        modelAndView.setViewName("/WEB-INF/velocity/test/wait.vm");
         return modelAndView;
     }
 
@@ -103,7 +103,7 @@ public class TestController {
     public ModelAndView choose(HttpSession session){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("examinee",session.getAttribute("user"));
-        modelAndView.setViewName("test/choose");
+        modelAndView.setViewName("/WEB-INF/velocity/test/choose.vm");
         return modelAndView;
     }
 
@@ -144,7 +144,7 @@ public class TestController {
         modelAndView.addObject("examinee",examinee);
         modelAndView.addObject("quesNum",quesNum);
         modelAndView.addObject("type",type);
-        modelAndView.setViewName("test/checkChoose");
+        modelAndView.setViewName("/WEB-INF/velocity/test/checkChoose.vm");
         return modelAndView;
     }
 
@@ -204,7 +204,7 @@ public class TestController {
         modelAndView.addObject("restSec",restSec);
         modelAndView.addObject("examinee",examinee);
         modelAndView.addObject("answer",testMark.getContent());
-        modelAndView.setViewName("test/examination");
+        modelAndView.setViewName("/WEB-INF/velocity/test/examination.vm");
         return modelAndView;
     }
 
@@ -232,7 +232,7 @@ public class TestController {
         ModelAndView modelAndView = new ModelAndView();
         TestMark testMark = getTestMark(session,"A");
         modelAndView.addObject("answer",testMark.getContent());
-        modelAndView.setViewName("test/checkAnswer");
+        modelAndView.setViewName("/WEB-INF/velocity/test/checkAnswer.vm");
         return modelAndView;
     }
 
@@ -246,12 +246,12 @@ public class TestController {
 
     @RequestMapping(value ="/finish",method= RequestMethod.GET)
     public  String finish(HttpSession session) {
-        return "test/finish";
+        return "/WEB-INF/velocity/test/finish.vm";
     }
 
     @RequestMapping(value ="/noRepeat",method= RequestMethod.GET)
     public  String noRepeat(HttpSession session) {
-        return "test/noRepeat";
+        return "/WEB-INF/velocity/test/noRepeat.vm";
     }
 
 

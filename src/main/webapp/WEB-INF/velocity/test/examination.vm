@@ -63,7 +63,7 @@
 
         setTimeout(function () {
             $("#submit_button").removeAttr("disabled");
-        },60*3*1000-sec)
+        },(sec - 3*10)*1000)
 
         setTimeout(function () {
             $('#submit_button').click();
@@ -91,7 +91,7 @@
                     data: {answer:$("#answer").val()},
                     dataType: "json",
                     success: function(data){
-                        console.log(data)
+
                         if(!data.fail){
                             location.href = data.message;
                         }
@@ -101,6 +101,9 @@
                     },
                     error:function () {
                         alert("网络连接异常");
+                    },
+                    complete:function(){
+                        $("#submit_button").removeAttr("disabled");
                     }
                 });
             }

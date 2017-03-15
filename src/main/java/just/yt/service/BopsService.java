@@ -140,6 +140,8 @@ public class BopsService {
                 continue;
             }
             Examinee e = new Examinee(now,now,identity,name,position,"");
+            Byte b = 0;
+            e.setEnd(b);
             examinees.add(e);
         }
         for (Examinee e: examinees) {
@@ -377,7 +379,7 @@ public class BopsService {
         if (id == null || id<0) return  DefaultResult.failResult("参数非法");
         Examinee ex = examineeService.getById(id);
         if (ex == null) return  DefaultResult.failResult("无此考生");
-        Byte b = 1;
+        Byte b = 0;
         ex.setEnd(b);
         Examinee e = examineeService.update(ex);
         return DefaultResult.successResult();

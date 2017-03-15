@@ -35,13 +35,13 @@ import java.util.Objects;
 
     @RequestMapping(value ="/",method= RequestMethod.GET)
     public  String index() {
-        return "bopslogin";
+        return "/WEB-INF/velocity/bops/bopslogin.vm";
     }
 
      @RequestMapping(value ="/login/login",method= RequestMethod.GET)
      public ModelAndView login() {
             ModelAndView mav = new ModelAndView();
-            mav.setViewName("bopslogin");
+            mav.setViewName("bops/bopslogin");
             return mav;
       }
 
@@ -65,7 +65,7 @@ import java.util.Objects;
             mav.setViewName("redirect:/bops/");
         }
         mav.addObject("user",session.getAttribute("user"));
-        mav.setViewName("bopsindex");
+        mav.setViewName("bops/bopsindex");
         return mav;
     }
 
@@ -75,19 +75,10 @@ import java.util.Objects;
         if(Objects.isNull(session.getAttribute("user"))) {
             mav.setViewName("redirect:/bops/");
         }
-        mav.setViewName("addbopsuser");
+        mav.setViewName("bops/addbopsuser");
         return  mav;
     }
 
-    @RequestMapping(value ="/bopsUser/list",method= RequestMethod.POST)
-    public ModelAndView list(HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        if(Objects.isNull(session.getAttribute("user"))) {
-            mav.setViewName("redirect:/bops/");
-        }
-        List<Examinee> list = bopsService.listExaminee();
-        return  mav;
-    }
 
 
     @RequestMapping(value ="/bopsUser/save",method= RequestMethod.POST)
@@ -109,7 +100,7 @@ import java.util.Objects;
     @RequestMapping(value ="/bopsUser/importoutput",method= RequestMethod.GET)
     public ModelAndView importExaminee() {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("IO");
+        mav.setViewName("bops/IO");
         return  mav;
     }
 
@@ -220,7 +211,7 @@ import java.util.Objects;
             return null;
         }
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("del");
+        mav.setViewName("bops/del");
         return  mav;
     }
 
@@ -231,7 +222,7 @@ import java.util.Objects;
         }
         ModelAndView mav = new ModelAndView();
         List<Examinee> examinees = bopsService.listExaminee(identity);
-        mav.setViewName("listAll");
+        mav.setViewName("bops/listAll");
         mav.addObject("list",examinees);
         mav.addObject("identity",identity);
         return  mav;
@@ -247,7 +238,7 @@ import java.util.Objects;
         }
         ModelAndView mav = new ModelAndView();
         List<Examinee> examinees = bopsService.listExaminee();
-        mav.setViewName("listAll");
+        mav.setViewName("bops/listAll");
         mav.addObject("list",examinees);
         return  mav;
     }
@@ -262,7 +253,7 @@ import java.util.Objects;
         }
         ModelAndView mav = new ModelAndView();
         List<Examinee> examinees = bopsService.listExaminee();
-        mav.setViewName("listAll");
+        mav.setViewName("bops/listAll");
         mav.addObject("list",examinees);
         return  mav;
     }

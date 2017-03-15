@@ -47,8 +47,12 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>/index.jsp</welcome-file>
+    <welcome-file>test/login</welcome-file>
   </welcome-file-list>
+  <servlet-mapping>
+    <servlet-name>SpringMVC</servlet-name>
+    <url-pattern>/test/login</url-pattern>
+  </servlet-mapping>
 
 </web-app>
 

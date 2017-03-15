@@ -18,8 +18,8 @@
     <div class="login-card">
         <h1>江苏省检察机关2017年公开招聘书记员速录考试系统登录</h1><br>
         <form method="post" action="/test/doLogin">
-            <input type="text" name="username" id="id" placeholder="姓名">
-            <input type="text" name="id" id="username" placeholder="身份证号码">
+            <input type="text" name="username" id="username" placeholder="姓名">
+            <input type="text" name="id" id="id" placeholder="身份证号码">
             <input type="submit" id="submit_button" class="login login-submit" value="登录">
         </form>
     </div>

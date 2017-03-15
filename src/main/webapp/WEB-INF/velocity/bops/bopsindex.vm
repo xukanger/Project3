@@ -17,7 +17,7 @@
         <title>BOPS</title>
     </head>
     <body>
-        #parse("navbar.vm")
+        #parse("bops/navbar.vm")
 
 #*        <h2>清空考生记录</h2>
         <form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
