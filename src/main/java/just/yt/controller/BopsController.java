@@ -222,4 +222,24 @@ import java.util.Objects;
         return  rs;
     }
 
+    @RequestMapping(value ="/bopsUser/deleteAll",method= RequestMethod.GET)
+    public ModelAndView deleteAll(HttpSession session) {
+        if (Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("del");
+        return  mav;
+    }
+    @RequestMapping(value ="/bopsUser/listAll",method= RequestMethod.GET)
+    public ModelAndView listAll(HttpSession session) {
+        if (Objects.isNull(session.getAttribute("user"))) {
+            return null;
+        }
+        ModelAndView mav = new ModelAndView();
+        List<Examinee> examinees = bopsService.listExaminee();
+        mav.setViewName("del");
+        mav.addObject("list",examinees);
+        return  mav;
+    }
 }
