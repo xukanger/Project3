@@ -10,13 +10,13 @@
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
     <script src="/style/js/build/app/notify/notify.js"></script>
     <script src="/style/js/build/app/uploader/fileuploader.js"></script>
-    <title>清空考生记录</title>
+    <title>?????????</title>
 </head>
 <body>
     #include("navbar.vm")
-<h2>清空考生记录</h2>
+<h2>?????????</h2>
 <form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
-    <input class="btn btn-danger" type="submit" value="单击此处清空考生记录">
+    <input class="btn btn-danger" type="submit" value="????????????????">
 </form>
 </body>
 </html>

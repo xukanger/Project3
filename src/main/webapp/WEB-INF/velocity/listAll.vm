@@ -10,11 +10,11 @@
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
     <script src="/style/js/build/app/notify/notify.js"></script>
     <script src="/style/js/build/app/uploader/fileuploader.js"></script>
-    <title>²éÑ¯ËùÓÐ¿¼ÉúÐÅÏ¢</title>
+    <title>æ·»åŠ ç®¡ç†å‘˜</title>
 </head>
 <body>
     #include("navbar.vm")
-<h2>Çå¿Õ¿¼Éú¼ÇÂ¼</h2>
+<h2>ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½ï¿½ï¿½Â¼</h2>
 <table>
     <thead>
 
