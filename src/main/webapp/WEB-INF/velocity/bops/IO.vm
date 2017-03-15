@@ -14,13 +14,16 @@
     <link rel="stylesheet" href="/style/css/src/site/bops/bops.css"/>
     <script src="/style/js/build/app/bootbox/bootbox-4.2.0.js"></script>
     <script src="/style/js/build/app/notify/notify.js"></script>
+    <script src="/style/js/build/app/uploader/ajaxfileupload.js"></script>
     <title>导入导出考生信息</title>
 </head>
+<body>
     #parse("bops/navbar.vm")
-<h2>导入考生信息</h2>
-    <form method="POST" action="/bops/bopsUser/excelUpload" enctype="multipart/form-data">
-          上传文件:  <input  class="projectfile" type="file" name="file" style="margin:10px 0">
-         <input class="btn btn-primary" type="submit" value="单击此处上传Excel">
+
+    <h2>导入考生信息</h2>
+    <form id="uploadForm" method="POST" action="/bops/bopsUser/excelUpload" enctype="multipart/form-data">
+          上传文件:  <input id="uploadFile" class="projectfile" type="file" name="file" style="margin:10px 0">
+         <input id="uploadBtn" class="btn btn-primary" type="submit" value="单击此处上传Excel">
     </form>
     <h2>导出初试考生成绩</h2>
     <form method="POST" action="/bops/bopsUser/outputExamineeA" style="margin:10px 0">
@@ -40,4 +43,46 @@
         <input class="btn btn-primary" type="submit" value="单击此处下载全部考生答题内容">
     </form>
 </body>
+<script>
+    $(function() {
+        #if($!{res})
+            #if($!{res.success})
+                $('#uploadBtn').notify("$!{res.data}", "success");
+            #else
+                $('#uploadBtn').notify("$!{res.message}", "erro");
+            #end
+        #end
+
+/*        $('#uploadForm').submit(function () {
+            $('#uploadBtn').attr('disabled',"true");
+            $.ajaxFileUpload
+            (
+                    {
+                        url: "/bops/bopsUser/excelUpload", //用于文件上传的服务器端请求地址
+                        secureuri: false, //是否需要安全协议，一般设置为false
+                        fileElementId: 'uploadFile', //文件上传域的ID
+                        dataType: 'json', //返回值类型 一般设置为json
+                        success: function (rs)  //服务器成功响应处理函数
+                        {
+                            if (res.success){
+                                $('#uploadBtn').notify("清空成功", "success");
+                                setTimeout(function(){
+                                    window.location.href = "/bops/index";
+                                },800);
+                            }else{
+                                $('#uploadBtn').notify(res.message, "error");
+                            }
+                            $('#uploadBtn').removeAttr("disabled");
+                        },
+                        error: function (data, status, e)//服务器响应失败处理函数
+                        {
+                            ('#uploadBtn').notify("导入失败", "error");
+                            $('#uploadBtn').removeAttr("disabled");
+                        }
+                    }
+            );
+        });*/
+
+    });
+</script>
 </html>

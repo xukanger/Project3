@@ -105,18 +105,26 @@ import java.util.Objects;
     }
 
     @RequestMapping(value ="/bopsUser/excelUpload",method= RequestMethod.POST)
-    public @ResponseBody  DefaultResult excelUpload(Map<String, Object> model, @RequestParam  MultipartFile file, HttpSession session) {
+    public  ModelAndView excelUpload(Map<String, Object> model, @RequestParam  MultipartFile file, HttpSession session) {
         BopsUser user =(BopsUser) session.getAttribute("user");
+        DefaultResult res = null;
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("bops/IO");
         if(Objects.isNull(user)) {
-            return DefaultResult.failResult("用户未登录");
+            res = DefaultResult.failResult("用户未登录");
+            mav.addObject("res",res);
+            return  mav;
         }
         System.out.println(file.getOriginalFilename());
         System.out.println(file.getName());
         if (!(file.getOriginalFilename().endsWith(".xls")||file.getOriginalFilename().endsWith(".xlsx"))){
-            return DefaultResult.failResult("文件格式不正确");
+            res = DefaultResult.failResult("文件格式不正确");
+            mav.addObject("res",res);
+            return  mav;
         }
-        DefaultResult res = bopsService.importExaminee(file);
-        return  res;
+        res = bopsService.importExaminee(file);
+        mav.addObject("res",res);
+        return  mav;
     }
 
     @RequestMapping(value ="/bopsUser/outputExamineeA",method= RequestMethod.POST)

@@ -16,8 +16,29 @@
 <body>
     #parse("bops/navbar.vm")
 <h2>清空所有考生数据</h2>
-<form method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
+<form id="delForm"  method="POST" action="/bops/bopsUser/delete" style="margin:10px 0">
     <input class="btn btn-danger" type="submit" value="单击此处清空所有考生数据">
 </form>
 </body>
+<script>
+    $(function(){
+        $('#delForm').submit(function(){
+            $form = $('#delForm');
+            $('#delForm').attr('disabled',"true");
+            jQuery.post($form.attr('action'), $form.serialize(), function(res){
+                if (res.success){
+                    $('#saveBtn').notify("清空成功", "success",3600);
+                    setTimeout(function(){
+                        window.location.href = "/bops/index";
+                    },800);
+                }else{
+                    $('#saveBtn').notify(res.message, "error",3600);
+                }
+                $('#delForm').removeAttr("disabled");
+            });
+            return false;
+        });
+    })
+
+</script>
 </html>
