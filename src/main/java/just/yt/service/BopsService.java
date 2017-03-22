@@ -255,7 +255,7 @@ public class BopsService {
         try {
             for (Map.Entry<String, String> entry : acontents.entrySet()) {
                 if (Objects.isNull(entry)) continue;
-                String filePath = "D://score//A//";
+                String filePath = "E://t_yt_score//A//";
                 File file=new File(filePath);
                 if (!file.exists())
                 file.mkdirs();
@@ -271,7 +271,7 @@ public class BopsService {
 
             for (Map.Entry<String, String> entry : bcontents.entrySet()) {
                 if (Objects.isNull(entry)) continue;
-                String filePath = "D://score//B//";
+                String filePath = "E://t_yt_score//B//";
                 File file=new File(filePath);
                 if (!file.exists())
                     file.mkdirs();
@@ -289,15 +289,15 @@ public class BopsService {
             return DefaultResult.failResult("下载失败");
         }
 
-        zip("D://score//","D://temp.zip");
-        File temp = new File("D://temp.zip");
+        zip("E://t_yt_score//","E://temp.zip");
+        File temp = new File("E://temp.zip");
         BufferedInputStream fis = new BufferedInputStream(new FileInputStream(temp.getPath()));
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
         os.write(buffer);
         temp.delete();
-        removedir(new File("D://score"));
+        removedir(new File("E://t_yt_score//"));
         return  DefaultResult.successResult("下载成功");
     }
 

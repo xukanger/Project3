@@ -219,6 +219,7 @@ public class TestController {
         if(isTestEnded(examinee, session)){
             return DefaultResult.result(true,NOREAPEAT_URL,null);
         }
+//        testMark.setType("A");
         testMark.setContent(answer);
         testMarkService.update(testMark);
         mav.addObject("answer",answer);
